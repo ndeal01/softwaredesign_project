@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>{{ pageTitle }}</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/stylesheet.css') }}">
+  <script>
+      $(function() {
+     $('#flash').delay(500).fadeIn('normal', function() {
+        $(this).delay(2500).fadeOut();
+     });
+  });
+  </script>
+  <style>
+  #flash { display:none; background-color:#000; color:#fff}
+  </style>
+</head>
+
+  <body>
+    <h1> Materials </h1>
+    <hr>
+      {% block body %}
+
+	  {% endblock %}
+
+ </body>
+
+</html>

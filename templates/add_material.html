@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block body %}
+<div>
+
+  <h3>Add a material</h3>
+
+
+
+
+<form method="POST" action="{{ url_for('add_material') }}">
+
+    {{ form.csrf_token }}<br>
+    {{ form.Title.label }} {{ form.Title }}<br>
+    {{ form.DateAdded.label }} {{ form.DateAdded }}<br>
+    {{ form.LastModified.label }} {{ form.LastModified }}<br>
+    {{ form.Genre.label }} {{ form.Genre }}<br>
+    {{ form.Author.label }} {{ form.Author }}<br>
+    {{ form.ISBN.label }} {{ form.ISBN }}<br>
+
+    <input type="submit" value="Save">
+
+  </form>
+
+</div>
+{% endblock %}
