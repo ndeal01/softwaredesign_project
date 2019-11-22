@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, DateField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
 import pymysql
 import secrets
 import datetime
@@ -33,7 +34,7 @@ class MaterialForm(FlaskForm):
     Title = StringField('Title:', validators=[DataRequired()])
     DateAdded = DateField('Date Added: ')
     LastModified = DateField('Date Last Modified: ')
-    Genre = DateField('Genre: ', validators=[DataRequired()])
+    Genre = StringField('Genre: ', validators=[DataRequired()])
     Author = StringField('Author:', validators=[DataRequired()])
     ISBN = IntegerField('ISBN:', validators=[DataRequired()])
 
@@ -41,12 +42,30 @@ class MaterialForm(FlaskForm):
 def index():
     all_materials = g2_materialtable.query.all()
     return render_template('index.html', materials=all_materials, pageTitle='SLPL Materials')
+    
+@app.route('/materials')
+def materials():
+    all_materials = g2_people.query.all()
+    return render_template('materials.html', materials=all_materials, pageTitle='Materials', legend='Materials')
 
-@app.route('/material/new', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET', 'POST'])
+def search_materials():
+    if request.method == 'POST':
+        form = request.form
+        search_value = form['search_string']
+        search = "%{0}%".format(search_value)
+        results = g2_materialtable.query.filter( or_(g2_materialtable.Title.like(search), g2_materialtable.Genre.like(search), g2_materialtable.Author.like(search), g2_materialtable.ISBN.like(search))).all()
+        return render_template('index.html', materials=results, pageTitle="Materials", legend ="Update A Material")
+    else:
+        return redirect('/')
+
+@app.route('/add_material', methods=['GET', 'POST'])
 def add_material():
     form = MaterialForm()
+    print('Before validate')
     if form.validate_on_submit():
-        material = g2_materials(MaterialID=form.MaterialID.data, Title=form.Title.data, DateAdded=datetime.datetime.now(),LastModified=datetime.datetime.now(), Genre=form.Genre.data, Author=form.Author.data, ISBN=form.ISBN.data)
+        print('inside validate')
+        material = g2_materialtable(Title=form.Title.data, DateAdded=datetime.datetime.now(),LastModified=datetime.datetime.now(), Genre=form.Genre.data, Author=form.Author.data, ISBN=form.ISBN.data)
         db.session.add(material)
         db.session.commit()
         return redirect('/')
@@ -62,10 +81,11 @@ def material(MaterialID):
 def update_material(MaterialID):
     material = g2_materialtable.query.get_or_404(MaterialID)
     form = MaterialForm()
+
     if form.validate_on_submit():
         material.MaterialID = form.MaterialID.data
         material.Title = form.Title.data
-        material.DateAdded = form.DateAdded.data
+        material.DateAdded = datetime.datetime.now()
         material.LastModified = datetime.datetime.now()
         material.Genre = form.Genre.data
         material.Author = form.Author.data
@@ -76,7 +96,7 @@ def update_material(MaterialID):
     form.MaterialID.data = material.MaterialID
     form.Title.data = material.Title
     form.DateAdded.data = material.DateAdded
-    form.lastModified.data = material.lastModified
+    form.LastModified.data = material.LastModified
     form.Genre.data = material.Genre
     form.Author.data = material.Author
     form.ISBN.data = material.ISBN
