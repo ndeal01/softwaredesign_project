@@ -10,10 +10,12 @@
 <p><a href="{{ url_for('add_material')}}"> Add a new material</a>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-<div id='flash'>
+<div class="alert alert-warning alert-dismissible fade show" role="alert" id="flash">
   {% for message in messages %}
-  <strong>Alert!</strong> {{ message }}
-  <button type="close" value="x">
+  <strong>Alert!
+  </strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
   </button>
   {% endfor %}
   {% endif %}
@@ -48,8 +50,8 @@
 
 
       <td>
-        <form action="/materials/{{ row.MaterialID }}" method="POST">
-          <input type="submit" value="Details" class="btn btn-danger" />
+        <form action="{{ url_for('material', MaterialID=row.MaterialID) }}" method="POST">
+          <input type="submit" value="Details" class="btn btn-info" />
         </form>
       </td>
             </tr>

@@ -4,15 +4,25 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, DateField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
 import pymysql
-import secrets
 import datetime
+import secrets
+#import os
+
+#dbuser = os.environ.get('DBUSER')
+#dbpass = os.environ.get('DBPASS')
+#dbhost = os.environ.get('DBHOST')
+#dbname = os.environ.get('DBNAME')
 
 conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
-app = Flask(__name__)
+#conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(dbuser, dbpass, dbhost, dbname)
 
+app = Flask(__name__)
 app.config['SECRET_KEY']='SuperSecretKey'
 app.config['SQLALCHEMY_DATABASE_URI'] = conn
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning
+
 db = SQLAlchemy(app)
 
 class g2_materialtable(db.Model):
@@ -42,13 +52,23 @@ def index():
     all_materials = g2_materialtable.query.all()
     return render_template('index.html', materials=all_materials, pageTitle='SLPL Materials')
 
-@app.route('/material/new', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        form = request.form
+        search_value = form['search_string']
+        search = "%{0}%".format(search_value)
+        results = g2_materialtable.query.filter(or_(g2_materialtable.Title.like(search), g2_materialtable.DateAdded.like(search), g2_materialtable.LastModified.like(search), g2_materialtable.Genre.like(search), g2_materialtable.Author.like(search), g2_materialtable.ISBN.like(search))).all()
+        return render_template('index.html', materials=results, pageTitle='SLPL Materials', legend="Search Results")
+
+@app.route('/add_material', methods=['GET', 'POST'])
 def add_material():
     form = MaterialForm()
     if form.validate_on_submit():
-        material = g2_materials(MaterialID=form.MaterialID.data, Title=form.Title.data, DateAdded=datetime.datetime.now(),LastModified=datetime.datetime.now(), Genre=form.Genre.data, Author=form.Author.data, ISBN=form.ISBN.data)
+        material = g2_materialtable(MaterialID=form.MaterialID.data, Title=form.Title.data, DateAdded=datetime.DateAdded.now(),LastModified=datetime.LastModified.now(), Genre=form.Genre.data, Author=form.Author.data, ISBN=form.ISBN.data)
         db.session.add(material)
         db.session.commit()
+        flash('New material was successfully added!')
         return redirect('/')
     return render_template('add_material.html', form=form, pageTitle='Add A New Material', legend="Add A New Material")
 
@@ -65,14 +85,16 @@ def update_material(MaterialID):
     if form.validate_on_submit():
         material.MaterialID = form.MaterialID.data
         material.Title = form.Title.data
-        material.DateAdded = form.DateAdded.data
-        material.LastModified = datetime.datetime.now()
+        material.DateAdded = form.DateAdded.now()
+        material.LastModified = datetime.LastModified.now()
         material.Genre = form.Genre.data
         material.Author = form.Author.data
         material.ISBN = form.ISBN.data
         db.session.commit()
-        return redirect('/')
 
+        flash('This character has been updated!')
+        return redirect(url_for('material', MaterialID=material.MaterialID))
+    #elif request.method == 'GET':
     form.MaterialID.data = material.MaterialID
     form.Title.data = material.Title
     form.DateAdded.data = material.DateAdded
@@ -80,12 +102,12 @@ def update_material(MaterialID):
     form.Genre.data = material.Genre
     form.Author.data = material.Author
     form.ISBN.data = material.ISBN
-    return render_template('update_material.html', form=form, pageTitle='Update Material',legend="Update A Material")
+    return render_template('update_material.html', form=form, pageTitle='Update Material', legend="Update A Material")
 
 @app.route('/material/<int:MaterialID>/delete', methods=['POST'])
 def delete_material(MaterialID):
     if request.method == 'POST': #if it's a POST request, delete the material from the database
-        material = g2_materialtable.query.get_or_404(MaterialID)
+        material = g2_materialtable.query.filter_by(MaterialID=MaterialID).first()
         db.session.delete(material)
         db.session.commit()
         flash('Material was successfully deleted!')
