@@ -42,10 +42,10 @@ class MaterialForm(FlaskForm):
 def index():
     all_materials = g2_materialtable.query.all()
     return render_template('index.html', materials=all_materials, pageTitle='SLPL Materials')
-    
+
 @app.route('/materials')
 def materials():
-    all_materials = g2_people.query.all()
+    all_materials = g2_materialtable.query.all()
     return render_template('materials.html', materials=all_materials, pageTitle='Materials', legend='Materials')
 
 @app.route('/search', methods=['GET', 'POST'])
