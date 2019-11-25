@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="navbar">
-  <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a class="active" href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
   <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
-  <a href="{{ url_for('materials')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
-  <a href="{{ url_for('materials')}}"><i class="fas fa-cart-plus"></i> Checkout Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('add_material')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+
 </div>
+
+
+
 {% endblock %}
