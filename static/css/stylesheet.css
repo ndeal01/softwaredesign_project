@@ -1,3 +1,16 @@
+table, th, td {
+  border: 1px solid black;
+}
+table {
+  border-collapse: collapse;
+  width: 40%;
+}
+td{
+  text-align: center;
+}
+th {
+  height: 20px;
+}
 /* Style the navigation bar */
 .navbar {
  width: 100%;
@@ -33,4 +46,3 @@
    float: none;
    display: block;
  }
-}
