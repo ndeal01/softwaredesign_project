@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<form method="POST">
+  <input type="text" autofocus="autofocus" name="search_string">
+  <input type="submit" formaction="/search" value="Search">
+  </form>
+
+<p><a href="{{ url_for('add_people')}}"> Add a new patron</a>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert" id="flash">
+  {% for message in messages %}
+  <strong>Alert!
+  </strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+</div>
+
+{% if people %}
+    <table>
+        <thead>
+            <tr>
+
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Birthdate</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip</th>
+                <th>PhoneNumber1</th>
+                <th>PhoneNumber2</th>
+                <th>Email</th>
+
+            </tr>
+        </thead>
+
+      <tbody>
+
+            {% for row in people %}      <tr>
+
+                <td> {{ row.FirstName }}</td>
+                <td> {{ row.LastName }}</td>
+                <td> {{ row.Birthdate }}</td>
+                <td> {{ row.Address }}</td>
+                <td> {{ row.City }}</td>
+                <td> {{ row.State }}</td>
+                <td> {{ row.Zip }}</td>
+                <td> {{ row.PhoneNumber1 }}</td>
+                <td> {{ row.PhoneNumber2 }}</td>
+                <td> {{ row.Email }}</td>
+
+
+      <td>
+        <form action="{{ url_for('patron', PeopleID=row.PeopleID) }}" method="POST">
+          <input type="submit" value="Details" class="btn btn-info" />
+        </form>
+      </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+{% endblock %}

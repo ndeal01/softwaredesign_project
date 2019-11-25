@@ -1,12 +1,71 @@
 {% extends 'base.html' %}
 {% block body %}
+<<<<<<< HEAD
+=======
+<form method="POST">
+  <input type="text" autofocus="autofocus" name="search_string">
+  <input type="submit" formaction="/search" value="Search">
+  </form>
+
+<p><a href="{{ url_for('add_material')}}"> Add a new material</a>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert" id="flash">
+  {% for message in messages %}
+  <strong>Alert!
+  </strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+</div>
+
+{% if materials %}
+    <table>
+        <thead>
+            <tr>
+
+                <th>Title</th>
+                <th>DateAdded</th>
+                <th>LastModified</th>
+                <th>Genre</th>
+                <th>Author</th>
+                <th>ISBN</th>
+>>>>>>> dc72d64c1f7e028d3ff50a8da966385a949d59eb
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<<<<<<< HEAD
 <div class="navbar">
   <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
   <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
   <a href="{{ url_for('materials')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
   <a href="{{ url_for('materials')}}"><i class="fas fa-cart-plus"></i> Checkout Materials</a>
 </div>
+=======
+      <tbody>
+
+            {% for row in materials %}      <tr>
+
+                <td> {{ row.Title }}</td>
+                <td> {{ row.DateAdded }}</td>
+                <td> {{ row.LastModified }}</td>
+                <td> {{ row.Genre }}</td>
+                <td> {{ row.Author }}</td>
+                <td> {{ row.ISBN }}</td>
+
+
+      <td>
+        <form action="{{ url_for('material', MaterialID=row.MaterialID) }}" method="POST">
+          <input type="submit" value="Details" class="btn btn-info" />
+        </form>
+      </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+>>>>>>> dc72d64c1f7e028d3ff50a8da966385a949d59eb
 {% endblock %}
