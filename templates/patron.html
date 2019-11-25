@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+
+{% if form %}
+  <form method="POST", action="">
+
+
+    {{ form.csrf_token }}
+    {{ form.PeopleID.label }} {{ form.PeopleID }}
+    {{ form.FirstName.label }} {{ form.FirstName }}
+    {{ form.LastName.label }} {{ form.LastName }}
+    {{ form.Birthdate.label }} {{ form.Birthdate }}
+    {{ form.Address.label }} {{ form.Address }}
+    {{ form.City.label }} {{ form.City }}
+    {{ form.State.label }} {{ form.State }}
+    {{ form.Zip.label }} {{ form.Zip }}
+    {{ form.PhoneNumber1.label }} {{ form.PhoneNumber1 }}
+    {{ form.PhoneNumber2.label }} {{ form.PhoneNumber2 }}
+    {{ form.Email.label }} {{ form.Email }}
+
+    <input type="submit" formaction="{{url_for('update_people', PeopleID=form.PeopleID)}}" value="Update">
+    <input type="submit" formaction="{{url_for('delete_people', PeopleID=form.PeopleID)}}" value="Delete">
+
+
+
+  </form>
+{% endif %}
+</div>
+{% endblock %}
