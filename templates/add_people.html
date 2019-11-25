@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block body %}
+<div>
+
+  <h3>Add a Patron</h3>
+
+
+
+
+<form method="POST" action="">
+
+    {{ form.csrf_token }}<br>
+    {{ form.FirstName.label }} {{ form.FIrstName }}<br>
+    {{ form.LastName.label }} {{ form.LastName }}<br>
+    {{ form.Birthdate.label }} {{ form.Birthdate }}<br>
+    {{ form.Address.label }} {{ form.Address }}<br>
+    {{ form.City.label }} {{ form.City }}<br>
+    {{ form.State.label }} {{ form.State }}<br>
+    {{ form.Zip.label }} {{ form.Zip }}<br>
+    {{ form.PhoneNumber1.label }} {{ form.PhoneNumber1 }}<br>
+    {{ form.PhoneNumber2.label }} {{ form.PhoneNumber2 }}<br>
+    {{ form.Email.label }} {{ form.Email }}<br>
+
+    <input type="submit" value="Add Patron">
+
+  </form>
+
+</div>
+{% endblock %}
