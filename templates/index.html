@@ -2,11 +2,8 @@
 
 
 {% block body %}
-<form method="POST">
-  <input type="text" autofocus="autofocus" name="search_string">
-  <input type="submit" formaction="/search" value="Search">
-  </form>
 
+<<<<<<< HEAD
 <p><a href="{{ url_for('add_material')}}"> Add a new material</a>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -20,13 +17,18 @@
   {% endfor %}
   {% endif %}
   {% endwith %}
+=======
+<div class="navbar">
+  <a class="active" href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
+  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('add_material')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+>>>>>>> devAlex
 </div>
 
-{% if materials %}
-    <table>
-        <thead>
-            <tr>
 
+<<<<<<< HEAD
                 <th>Title</th>
                 <th>DateAdded</th>
                 <th>LastModified</th>
@@ -59,4 +61,6 @@
         </tbody>
     </table>
 {% endif %}
+=======
+>>>>>>> devAlex
 {% endblock %}
