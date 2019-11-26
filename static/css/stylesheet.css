@@ -13,67 +13,57 @@ th {
 }
 /* Style the navigation bar */
 .navbar {
-<<<<<<< HEAD
-  width: 100%;
-  background-color: #555;
-  overflow: auto;
-=======
  width: 100%;
  background-color: #555;
+<<<<<<< HEAD
  overflow: hidden;
->>>>>>> a1882ffb7625c470102f403509bca40a17293176
+=======
+ overflow: auto;
+>>>>>>> c6f06d5c3717d82a0d3fa6f96fb973886d23e6c8
 }
 
 /* Navbar links */
 .navbar a {
   float: left;
-<<<<<<< HEAD
-  text-align: center;
-  padding: 12px;
-  color: white;
-=======
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
->>>>>>> a1882ffb7625c470102f403509bca40a17293176
+=======
+  color: white;
+  text-align: center;
+  padding: 12px;
+>>>>>>> c6f06d5c3717d82a0d3fa6f96fb973886d23e6c8
   text-decoration: none;
   font-size: 17px;
 }
 
 /* Navbar links on mouse-over */
 .navbar a:hover {
-<<<<<<< HEAD
-  background-color: #000;
-=======
  background-color: #000;
+<<<<<<< HEAD
  color: black
->>>>>>> a1882ffb7625c470102f403509bca40a17293176
 }
 
 /* Current/active navbar link */
 .active {
-<<<<<<< HEAD
-  background-color: #4CAF50;
-=======
  background-color: #4CAF50;
  color: white;
->>>>>>> a1882ffb7625c470102f403509bca40a17293176
+=======
+}
+
+/* Current/active navbar link */
+.navbar a.active {
+ background-color: #4CAF50;
+>>>>>>> c6f06d5c3717d82a0d3fa6f96fb973886d23e6c8
 }
 
 /* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
 @media screen and (max-width: 500px) {
-<<<<<<< HEAD
-  .navbar a {
-    float: none;
-    display: block;
-  }
-=======
  .navbar a {
    float: none;
    display: block;
  }
 <<<<<<< HEAD:static/stylesheet.css
->>>>>>> a1882ffb7625c470102f403509bca40a17293176
 }
 =======
 >>>>>>> bdce395aa312022cf007fe6ec367dac7bc22339e:static/css/stylesheet.css

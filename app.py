@@ -135,7 +135,7 @@ class g2_peopletable(db.Model):
         return "id: {0} | First Name: {1} | Last Name: {2} | Birthdate: {3} | Address: {4} | City: {5} | State: {6} | Zip: {7} | Phone Number 1: {8} | Phone Number 2: {9} | Email: {10}".format(self.PeopleID, self.FirstName, self.LastName, self.Birthdate, self.Address, self.City, self.State, self.Zip, self.PhoneNumber1, self.PhoneNumber2, self.Email)
 
 class PeopleForm(FlaskForm):
-    PeopleID = IntegerField('Material ID: ')
+    PeopleID = IntegerField('People ID: ')
     FirstName = StringField('First Name:', validators=[DataRequired()])
     LastName = StringField('Last Name:', validators=[DataRequired()])
     Birthdate = DateField('Birthdate: ')
@@ -228,6 +228,32 @@ def delete_people(PeopleID):
     else: #if it's a GET request, send them to the home page
         return redirect("/")
 
+class circulationtable(db.Model):
+    #__tablename__ = 'results'
+    CheckoutID = db.Column(db.Integer, primary_key=True)
+    MaterialID = db.Column(db.Integer)
+    PeopleID = db.Column(db.Integer)
+    Checkoutdate = db.Column(db.DateTime)
+    Datedue = db.Column(db.DateTime)
+def __repr__(self):
+    return "id: {0} | People ID: {1} | Material ID: {2} | Checkout Date: {3} | Date Due: {4}".format(self.CheckoutID, self.PeopleID, self.MaterialID, self.Checkoutdate, self.Datedue)
+
+class CheckoutForm(FlaskForm):
+    CheckoutID = IntegerField('Checkout ID: ')
+    PeopleID = IntegerField('People ID: ')
+    MaterialID = IntegerField('Material ID: ')
+    Checkoutdate = DateField('Checkout Date:')
+    Datedue = DateField('Date Due: ')
+
+@app.route('/checkout')
+def checkout():
+    all_checkout = circulationtable.query.all()
+    return render_template('checkout.html', checkout=all_checkout, pageTitle='Circulation List')
+
+@app.route('/checkout/<int:CheckoutID>', methods=['GET','POST'])
+def circulation(CheckoutID):
+    checkout = circulationtable.query.get_or_404(CheckoutID)
+    return render_template('checkout.html', form=checkout, pageTitle='Circulation Details')
 
 if __name__ == '__main__':
     app.run(debug=True)
