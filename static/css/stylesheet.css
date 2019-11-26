@@ -1,3 +1,16 @@
+table, th, td {
+  border: 1px solid black;
+}
+table {
+  border-collapse: collapse;
+  width: 40%;
+}
+td{
+  text-align: center;
+}
+th {
+  height: 20px;
+}
 /* Style the navigation bar */
 .navbar {
 <<<<<<< HEAD
@@ -59,5 +72,8 @@
    float: none;
    display: block;
  }
+<<<<<<< HEAD:static/stylesheet.css
 >>>>>>> a1882ffb7625c470102f403509bca40a17293176
 }
+=======
+>>>>>>> bdce395aa312022cf007fe6ec367dac7bc22339e:static/css/stylesheet.css
