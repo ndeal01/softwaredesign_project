@@ -44,3 +44,8 @@ th {
    float: none;
    display: block;
  }
+.hours {
+  width: 100%;
+  background-color: #555;
+  text-align: right;
+}
