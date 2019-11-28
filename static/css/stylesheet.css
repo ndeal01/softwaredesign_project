@@ -16,6 +16,7 @@ th {
  width: 100%;
  background-color: #555;
  overflow: auto;
+ float: right;
 }
 
 /* Navbar links */

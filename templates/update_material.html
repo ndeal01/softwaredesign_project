@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 {% block body %}
-<div>
-  <p><a href="{{ url_for('index')}}"> Home </a></p>
+<div class="navbar">
+  <a>South Liberty Public Library</a>
+  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
+  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
 
-  <h3>{{ legend }}</h3>
+</div>
+<div>
+
+  <h3>Update Material</h3>
 
   <form method="POST" action="">
 
@@ -15,12 +23,9 @@
     {{ form.Genre.label }}         {{ form.Genre(size=20) }}<br>
     {{ form.Author.label }}         {{ form.Author(size=20) }}<br>
     {{ form.ISBN.label }}           {{ form.ISBN(size=20) }} <br>
-
-
-
+    <br>
     <input type="submit" value="Save">
 
   </form>
-
 </div>
 {% endblock %}
