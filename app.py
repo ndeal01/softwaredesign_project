@@ -5,10 +5,11 @@ from wtforms import StringField, IntegerField, DateField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
-from datetime import datetime
+import datetime
+from datetime import date, timedelta
 import pymysql
 import secrets
-
+from time import strftime
 
 conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
 app = Flask(__name__)
@@ -88,7 +89,7 @@ def update_material(MaterialID):
     if form.validate_on_submit():
         material.MaterialID = form.MaterialID.data
         material.Title = form.Title.data
-        material.DateAdded = datetime.datetime.now()
+        material.DateAdded = form.DateAdded.data
         material.LastModified = datetime.datetime.now()
         material.Genre = form.Genre.data
         material.Author = form.Author.data
@@ -191,7 +192,7 @@ def update_people(PeopleID):
         people.PeopleID = form.PeopleID.data
         people.FirstName = form.FirstName.data
         people.LastName = form.LastName.data
-        people.Birthdate = datetime.Birthdate.now()
+        people.Birthdate = datetime.Birthdate.data
         people.Address = form.Address.data
         people.City = form.City.data
         people.State = form.State.data
