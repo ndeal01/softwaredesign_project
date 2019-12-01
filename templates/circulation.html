@@ -23,24 +23,18 @@
  </div>
 <br>
 {% if form %}
-  <form method="POST" action="{{ url_for('add_people') }}">
+  <form method="POST", action="">
 
 
     {{ form.csrf_token }}
+    {{ form.CheckoutID.label }} {{ form.CheckoutID }}
     {{ form.PeopleID.label }} {{ form.PeopleID }}
-    {{ form.FirstName.label }} {{ form.FirstName }}
-    {{ form.LastName.label }} {{ form.LastName }}
-    {{ form.Birthdate.label }} {{ form.Birthdate }}
-    {{ form.Address.label }} {{ form.Address }}
-    {{ form.City.label }} {{ form.City }}
-    {{ form.State.label }} {{ form.State }}
-    {{ form.Zip.label }} {{ form.Zip }}
-    {{ form.PhoneNumber1.label }} {{ form.PhoneNumber1 }}
-    {{ form.PhoneNumber2.label }} {{ form.PhoneNumber2 }}
-    {{ form.Email.label }} {{ form.Email }}
+    {{ form.MaterialID.label }} {{ form.MaterialID }}
+    {{ form.Checkoutdate.label }} {{ form.Checkoutdate }}
+    {{ form.Datedue.label }} {{ form.Datedue }}
 
-    <input type="submit" formaction="{{url_for('update_patron', PeopleID=form.PeopleID)}}" value="Update">
-    <input type="submit" formaction="{{url_for('delete_patron', PeopleID=form.PeopleID)}}" value="Delete">
+    <input type="submit" formaction="{{url_for('update_checkout', CheckoutID=form.CheckoutID)}}" value="Update">
+    <input type="submit" formaction="{{url_for('delete_checkout', CheckoutID=form.CheckoutID)}}" value="Delete">
 
 
 

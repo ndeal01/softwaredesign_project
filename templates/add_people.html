@@ -19,18 +19,27 @@
 
 <form method="POST" action="">
 
-    {{ form.csrf_token }}<br>
-    {{ form.FirstName.label }} {{ form.FIrstName }}<br>
+    {{ form.csrf_token }}
+    {{ form.FirstName.label }} {{ form.FirstName }}<br>
+    <br>
     {{ form.LastName.label }} {{ form.LastName }}<br>
+    <br>
     {{ form.Birthdate.label }} {{ form.Birthdate }}<br>
+    <br>
     {{ form.Address.label }} {{ form.Address }}<br>
+    <br>
     {{ form.City.label }} {{ form.City }}<br>
+    <br>
     {{ form.State.label }} {{ form.State }}<br>
+    <br>
     {{ form.Zip.label }} {{ form.Zip }}<br>
+    <br>
     {{ form.PhoneNumber1.label }} {{ form.PhoneNumber1 }}<br>
+    <br>
     {{ form.PhoneNumber2.label }} {{ form.PhoneNumber2 }}<br>
+    <br>
     {{ form.Email.label }} {{ form.Email }}<br>
-
+    <br>
     <input type="submit" value="Add Patron">
 
   </form>
