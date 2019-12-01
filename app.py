@@ -139,7 +139,7 @@ class PeopleForm(FlaskForm):
     PeopleID = IntegerField('People ID: ')
     FirstName = StringField('First Name:', validators=[DataRequired()])
     LastName = StringField('Last Name:', validators=[DataRequired()])
-    Birthdate = DateField('Birthdate: ')
+    Birthdate = DateField('Birthdate: YYYY-MM-DD ')
     Address = StringField('Address: ', validators=[DataRequired()])
     City = StringField('City:', validators=[DataRequired()])
     State = StringField('State:', validators=[DataRequired()])
@@ -171,7 +171,7 @@ def add_people():
     print('Before validate')
     if form.validate_on_submit():
         print('inside validate')
-        people = g2_peopletable(FirstName=form.FirstName.data, LastName=form.LastName.data, Birthdate=datetime.Birthdate.now(), Address=form.Address.data, City=form.City.data, State=form.State.data, Zip=form.Zip.data, PhoneNumber1=form.PhoneNumber1.data, PhoneNumber2=form.PhoneNumber2.data, Email=form.Email.data)
+        people = g2_peopletable(FirstName=form.FirstName.data, LastName=form.LastName.data, Birthdate=form.Birthdate.data, Address=form.Address.data, City=form.City.data, State=form.State.data, Zip=form.Zip.data, PhoneNumber1=form.PhoneNumber1.data, PhoneNumber2=form.PhoneNumber2.data, Email=form.Email.data)
         db.session.add(people)
         db.session.commit()
         return redirect('/')
@@ -192,7 +192,7 @@ def update_people(PeopleID):
         people.PeopleID = form.PeopleID.data
         people.FirstName = form.FirstName.data
         people.LastName = form.LastName.data
-        people.Birthdate = datetime.Birthdate.data
+        people.Birthdate = form.Birthdate.data
         people.Address = form.Address.data
         people.City = form.City.data
         people.State = form.State.data
