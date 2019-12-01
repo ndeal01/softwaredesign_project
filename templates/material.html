@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 {% block body %}
+<<<<<<< HEAD
 
 <div>
 <p><a href="{{ url_for('index')}}"> Home </a></p>
 <h3>{{ legend }}</h3>
+=======
+<div>
+<p><a href="{{ url_for('index')}}">Home Page</a></p>
+  <h3>Material Details</h3>
+>>>>>>> 997309b3149da683b7e50b18ad38a20868a35c0a
 
 {% with messages = get_flashed_messages() %}
  {% if messages %}
@@ -17,7 +23,10 @@
    {% endif %}
    {% endwith %}
  </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 997309b3149da683b7e50b18ad38a20868a35c0a
 
 {% if form %}
   <form method="POST", action="">

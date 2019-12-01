@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<a href="{{ url_for('materials')}}"> Materials</a>
-<a href="{{ url_for('materials')}}"> Patrons</a>
-<a href="{{ url_for('materials')}}">  Check out Materials</a>
+<div class="navbar">
+  <a>South Liberty Public Library</a>
+  <a class="active" href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
+  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+
+</div>
+
 {% endblock %}
