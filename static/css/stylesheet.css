@@ -15,11 +15,11 @@ th {
 .navbar {
  width: 100%;
  background-color: #555;
-<<<<<<< HEAD
- overflow: hidden;
-=======
  overflow: auto;
->>>>>>> c6f06d5c3717d82a0d3fa6f96fb973886d23e6c8
+<<<<<<< HEAD
+=======
+ float: right;
+>>>>>>> 9513e59d69e0fda8426c3216c79805c727514321
 }
 
 /* Navbar links */
@@ -40,21 +40,11 @@ th {
 /* Navbar links on mouse-over */
 .navbar a:hover {
  background-color: #000;
-<<<<<<< HEAD
- color: black
-}
-
-/* Current/active navbar link */
-.active {
- background-color: #4CAF50;
- color: white;
-=======
 }
 
 /* Current/active navbar link */
 .navbar a.active {
  background-color: #4CAF50;
->>>>>>> c6f06d5c3717d82a0d3fa6f96fb973886d23e6c8
 }
 
 /* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
@@ -63,7 +53,9 @@ th {
    float: none;
    display: block;
  }
-<<<<<<< HEAD:static/stylesheet.css
-}
 =======
->>>>>>> bdce395aa312022cf007fe6ec367dac7bc22339e:static/css/stylesheet.css
+.hours {
+  width: 100%;
+  background-color: #555;
+  text-align: right;
+}

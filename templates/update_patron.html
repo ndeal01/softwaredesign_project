@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
 {% block body %}
+<div class="navbar">
+  <a>South Liberty Public Library</a>
+  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
+  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+
+</div>
+<br>
 <div>
 
-  <h3>{{ legend }}</h3>
+  <h3>Update Patron</h3>
 
   <form method="POST" action="">
 
@@ -10,17 +20,15 @@
     {{ form.PeopleID.label }}     {{ form.PeopleID(size=5, readonly=true) }} <br>
     {{ form.FirstName.label }}          {{ form.FirstName(size=20) }}<br>
     {{ form.LastName.label }}      {{ form.LastName(size=20) }} <br>
-    {{ form.Birthdate.label }}   {{ form.Birthdate(size=20, readonly=true) }} <br>
+    {{ form.Birthdate.label }}   {{ form.Birthdate(size=20) }} <br>
     {{ form.Address.label }}         {{ form.Address(size=20) }}<br>
     {{ form.City.label }}         {{ form.City(size=20) }}<br>
     {{ form.State.label }}           {{ form.State(size=20) }} <br>
     {{ form.Zip.label }}           {{ form.Zip(size=20) }} <br>
-    {{ form.PhoneNumber1.label }}           {{ form.PhoneNumber1(size=20) }} <br>
-    {{ form.PhoneNumber2.label }}           {{ form.PhoneNumber2(size=20) }} <br>
+    {{ form.PhoneNumber1.label }}     {{ form.PhoneNumber1(size=20) }} <br>
+    {{ form.PhoneNumber2.label }}     {{ form.PhoneNumber2(size=20) }} <br>
     {{ form.Email.label }}           {{ form.Email(size=20) }} <br>
-
-
-
+    <br>
     <input type="submit" value="Save">
 
   </form>
