@@ -251,7 +251,7 @@ def checkout():
 def add_checkout():
     form = CheckoutForm()
     if form.validate_on_submit():
-        checkout = circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=datetime.datetime.now(), Datedue=datetime.datetime.timedelta(days=14))
+        checkout = circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
         db.session.add(checkout)
         db.session.commit()
         flash('Material was successfully added!')

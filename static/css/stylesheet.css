@@ -59,9 +59,3 @@ th {
   background-color: #555;
   text-align: right;
 }
-
-img {
-    max-width: 100%;
-    height: auto;
-    width: auto\9; /* ie8 */
-}
