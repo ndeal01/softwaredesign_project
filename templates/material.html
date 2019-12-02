@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block body %}
 
+  <br>
+  <br>
+  <br>
+<p><a href="{{ url_for('index')}}">Home Page</a></p>
+  <h3>Material Details</h3>
+
 <div class="navbar">
   <a>South Liberty Public Library</a>
   <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
@@ -29,12 +35,12 @@
 
     {{ form.csrf_token }}
     {{ form.MaterialID.label }} {{ form.MaterialID }}
-    {{ form.Title.label }} {{ form.Title }}
-    {{ form.DateAdded.label }} {{ form.DateAdded }}
-    {{ form.LastModified.label }} {{ form.LastModified }}
-    {{ form.Genre.label }} {{ form.Genre }}
-    {{ form.Author.label }} {{ form.Author }}
-    {{ form.ISBN.label }} {{ form.ISBN }}
+    {{ form.Title.label }} {{ form.Title }} <br>
+    {{ form.DateAdded.label }} {{ form.DateAdded }}<br>
+    {{ form.LastModified.label }} {{ form.LastModified }}<br>
+    {{ form.Genre.label }} {{ form.Genre }}<br>
+    {{ form.Author.label }} {{ form.Author }}<br>
+    {{ form.ISBN.label }} {{ form.ISBN }}<br>
 
     <input type="submit" formaction="{{url_for('update_material', MaterialID=form.MaterialID)}}" value="Update">
     <input type="submit" formaction="{{url_for('delete_material', MaterialID=form.MaterialID)}}" value="Delete">

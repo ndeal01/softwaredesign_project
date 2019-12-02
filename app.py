@@ -156,7 +156,7 @@ def search_people():
         form = request.form
         search_value = form['search_string']
         search = "%{0}%".format(search_value)
-        results = g2_peopletable.query.filter( or_(g2_peopletable.FirstName.like(search), g2_peopletable.LastName.like(search), g2_peopletable.Birthdate.like(search), g2_peopletable.Address.like(search), g2_peopletable.City.like(search), g2_peopletable.State.like(search), g2_peopletable.State.like(search), g2_peopletable.Zip.like(search), g2_peopletable.PhoneNumber1.like(search), g2_peopletable.PhoneNumber2.like(search), g2_peopletable.Email.like(search))).all()
+        results = g2_peopletable.query.filter( or_(g2_peopletable.FirstName.like(search), g2_peopletable.LastName.like(search), g2_peopletable.Birthdate.like(search), g2_peopletable.Address.like(search), g2_peopletable.City.like(search), g2_peopletable.State.like(search), g2_peopletable.Zip.like(search), g2_peopletable.PhoneNumber1.like(search), g2_peopletable.PhoneNumber2.like(search), g2_peopletable.Email.like(search))).all()
         return render_template('people.html', people=results, pageTitle="People")
 
     else:
@@ -224,7 +224,7 @@ def delete_patron(PeopleID):
     else: #if it's a GET request, send them to the home page
         return redirect("/")
 
-class circulationtable(db.Model):
+class g2_circulationtable(db.Model):
     #__tablename__ = 'results'
     CheckoutID = db.Column(db.Integer, primary_key=True)
     PeopleID = db.Column(db.Integer, db.ForeignKey('PeopleID'), nullable=False)
@@ -233,7 +233,7 @@ class circulationtable(db.Model):
     Datedue = db.Column(db.DateTime)
 
 def __repr__(self):
-    return "id: {0} | People ID: {1} | Material ID: {2} | Checkout Date: {3} | Date Due: {4}".format(self.CheckoutID, self.PeopleID, self.MaterialID, self.Checkoutdate, self.Datedue)
+    return "id: {0} | People ID: {1} | Material ID: {2} | Checkout Date: {3} | Date due: {4}".format(self.CheckoutID, self.PeopleID, self.MaterialID, self.Checkoutdate, self.Datedue)
 
 class CheckoutForm(FlaskForm):
     CheckoutID = IntegerField('Checkout ID: ')
@@ -244,23 +244,23 @@ class CheckoutForm(FlaskForm):
 
 @app.route('/checkout')
 def checkout():
-    all_checkout = circulationtable.query.all()
+    all_checkout = g2_circulationtable.query.all()
     return render_template('checkout.html', checkout=all_checkout, pageTitle='Circulation List')
 
 @app.route('/add_checkout', methods=['GET', 'POST'])
 def add_checkout():
     form = CheckoutForm()
     if form.validate_on_submit():
-        checkout = circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
+        checkout = g2_circulationtable(PeopleID=form.PeopleID.data, MaterialID=form.MaterialID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
         db.session.add(checkout)
         db.session.commit()
-        flash('Material was successfully added!')
-        return redirect("/materials")
+        flash('Material was successfully checked out!')
+        return redirect('/checkout')
     return render_template('add_checkout.html', form=form, pageTitle='Add A New Material', legend="Add A New Material")
 
 @app.route('/circulation/<int:CheckoutID>', methods=['GET','POST'])
-def circulation(CheckoutID):
-    checkout = circulationtable.query.get_or_404(CheckoutID)
+def g2_circulation(CheckoutID):
+    checkout = g2_circulationtable.query.get_or_404(CheckoutID)
     return render_template('circulation.html', form=checkout, pageTitle='Circulation Details')
 
 @app.route('/circulation/<int:CheckoutID>/update', methods=['GET','POST'])
@@ -287,7 +287,7 @@ def update_checkout(CheckoutID):
 @app.route('/circulation/<int:CheckoutID>/delete', methods=['POST'])
 def delete_checkout(CheckoutID):
     if request.method == 'POST': #if it's a POST request, delete the material from the database
-        checkout = circulationtable.query.get_or_404(MaterialID)
+        checkout = g2_circulationtable.query.get_or_404(CheckoutID)
         db.session.delete(checkout)
         db.session.commit()
         flash('Checkout was successfully deleted!')
