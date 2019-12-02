@@ -150,7 +150,7 @@ def people():
     all_people = g2_peopletable.query.all()
     return render_template('people.html', people=all_people, pageTitle='Patrons', legend='Patrons')
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/searchpeople', methods=['GET', 'POST'])
 def search_people():
     if request.method == 'POST':
         form = request.form
