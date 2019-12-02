@@ -6,11 +6,15 @@
 <div class="navbar">
   <a>South Liberty Public Library</a>
   <a class="active" href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
-  <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
   <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
   <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
   <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
-
+  <div class="search-container">
+    <form action="/search">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
 </div>
 
 <p><img src="static/images/girl_library.jpg" alt="Reading A Book" style="float:right" width="1100px" height="600px"></p>

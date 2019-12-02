@@ -134,16 +134,17 @@ class g2_peopletable(db.Model):
 
 class PeopleForm(FlaskForm):
     PeopleID = IntegerField('People ID: ')
-    FirstName = StringField('First Name: ', validators=[DataRequired()])
-    LastName = StringField('Last Name: ', validators=[DataRequired()])
-    Birthdate = StringField('Birthdate: ', validators=[DataRequired()])
+    FirstName = StringField('First Name:', validators=[DataRequired()])
+    LastName = StringField('Last Name:', validators=[DataRequired()])
+    Birthdate = DateField('Birthdate (YYYY-MM-DD): ')
     Address = StringField('Address: ', validators=[DataRequired()])
-    City = StringField('City: ', validators=[DataRequired()])
-    State = StringField('State: ', validators=[DataRequired()])
-    Zip = IntegerField('Zip: ', validators=[DataRequired()])
-    PhoneNumber1 = IntegerField('Phone Number 1: ', validators=[DataRequired()])
-    PhoneNumber2 = IntegerField('Phone Number 2: ')
+    City = StringField('City:', validators=[DataRequired()])
+    State = StringField('State:', validators=[DataRequired()])
+    Zip = IntegerField('Zip:', validators=[DataRequired()])
+    PhoneNumber1 = IntegerField('Phone Number 1:', validators=[DataRequired()])
+    PhoneNumber2 = IntegerField('Phone Number 2:')
     Email = StringField('Email: ', validators=[DataRequired()])
+
 
 @app.route('/people')
 def people():
@@ -176,42 +177,43 @@ def add_people():
 
 @app.route('/patron/<int:PeopleID>', methods=['GET','POST'])
 def patron(PeopleID):
-    patron = g2_peopletable.query.get_or_404(PeopleID)
-    return render_template('patron.html', form=patron, pageTitle='Patron Details')
+    people = g2_peopletable.query.get_or_404(PeopleID)
+    return render_template('patron.html', form=people, pageTitle='Patron Details')
 
 @app.route('/patron/<int:PeopleID>/update', methods=['GET','POST'])
 def update_patron(PeopleID):
-    patron = g2_peopletable.query.get_or_404(PeopleID)
+    people = g2_peopletable.query.get_or_404(PeopleID)
     form = PeopleForm()
 
     if form.validate_on_submit():
-        patron.FirstName = form.Firstname.data
-        patron.LastName = form.LastName.data
-        patron.Birthdate = form.Birthdate.data
-        patron.Address = form.Address.data
-        patron.City = form.City.data
-        patron.State = form.State.data
-        patron.Zip = form.Zip.data
-        patron.PhoneNumber1 = form.PhoneNumber1.data
-        patron.PhoneNumber2 = form.PhoneNumber2.data
-        patron.Email = form.Email.data
+        people.PeopleID = form.PeopleID.data
+        people.FirstName = form.FirstName.data
+        people.LastName = form.LastName.data
+        people.Birthdate = form.Birthdate.data
+        people.Address = form.Address.data
+        people.City = form.City.data
+        people.State = form.State.data
+        people.Zip = form.Zip.data
+        people.PhoneNumber1 = form.PhoneNumber1.data
+        people.PhoneNumber2 = form.PhoneNumber2.data
+        people.Email = form.Email.data
         db.session.commit()
 
         flash('This patron has been updated!')
-        return redirect(url_for('patron', PeopleID=patron.PeopleID))
+        return redirect(url_for('patron', PeopleID=people.PeopleID))
 
-    form.PeopleID.data = patron.PeopleID
-    form.FirstName.data = patron.FirstName
-    form.LastName.data = patron.LastName
-    form.Birthdate.data = patron.Birthdate
-    form.Address.data = patron.Address
-    form.City.data = patron.City
-    form.State.data = patron.State
-    form.Zip.data = patron.Zip
-    form.PhoneNumber1.data = patron.PhoneNumber1
-    form.PhoneNumber2.data = patron.PhoneNumber2
-    form.Email.data = patron.Email
-    return render_template('update_patron.html', form=form, pageTitle='Update Patron',legend="Update People")
+    form.PeopleID.data = people.PeopleID
+    form.FirstName.data = people.FirstName
+    form.LastName.data = people.LastName
+    form.Birthdate.data = people.Birthdate
+    form.Address.data = people.Address
+    form.City.data = people.City
+    form.State.data = people.State
+    form.Zip.data = people.Zip
+    form.PhoneNumber1.data = people.PhoneNumber1
+    form.PhoneNumber2.data = people.PhoneNumber2
+    form.Email.data = people.Email
+    return render_template('update_patron.html', form=form, pageTitle='Update People',legend="Update People")
 
 @app.route('/patron/<int:PeopleID>/delete', methods=['POST'])
 def delete_patron(PeopleID):
@@ -220,7 +222,7 @@ def delete_patron(PeopleID):
         db.session.delete(people)
         db.session.commit()
         flash('Patron was successfully deleted!')
-        return redirect("/")
+        return redirect("/people")
     else: #if it's a GET request, send them to the home page
         return redirect("/")
 
@@ -231,7 +233,7 @@ class circulationtable(db.Model):
     MaterialID = db.Column(db.Integer, db.ForeignKey('MaterialID'), nullable=False)
     Checkoutdate = db.Column(db.DateTime)
     Datedue = db.Column(db.DateTime)
-    
+
 def __repr__(self):
     return "id: {0} | People ID: {1} | Material ID: {2} | Checkout Date: {3} | Date Due: {4}".format(self.CheckoutID, self.PeopleID, self.MaterialID, self.Checkoutdate, self.Datedue)
 

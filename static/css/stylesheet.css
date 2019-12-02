@@ -24,9 +24,9 @@ th {
   float: left;
   color: white;
   text-align: center;
-  padding: 12px;
+  padding: 16px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 20px;
 }
 
 /* Navbar links on mouse-over */
@@ -38,7 +38,34 @@ th {
 .navbar a.active {
  background-color: #4CAF50;
 }
+/* Style the input container */
+.navbar .search-container {
+  float: right;
+}
 
+/* Style the input field inside the navbar */
+.navbar input[type=text] {
+  padding: 6px;
+  margin-top: 12px;
+  font-size: 17px;
+  border: none;
+}
+
+/* Style the button inside the input container */
+.navbar .search-container button {
+  float: right;
+  padding: 6px;
+  margin-top: 12px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar .search-container button:hover {
+  background: #ccc;
+}
 /* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
 @media screen and (max-width: 500px) {
  .navbar a {
