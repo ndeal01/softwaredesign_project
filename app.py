@@ -251,13 +251,13 @@ def checkout():
 def add_checkout():
     form = CheckoutForm()
     if form.validate_on_submit():
-        checkout = g2_circulationtable(PeopleID=form.PeopleID.data, MaterialID=form.MaterialID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
+        checkout = circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
         db.session.add(checkout)
         db.session.commit()
-        flash('Material was successfully checked out!')
-        return redirect('/checkout')
+        flash('Material was successfully added!')
+        return redirect("/materials")
     return render_template('add_checkout.html', form=form, pageTitle='Add A New Material', legend="Add A New Material")
-
+    
 @app.route('/circulation/<int:CheckoutID>', methods=['GET','POST'])
 def g2_circulation(CheckoutID):
     checkout = g2_circulationtable.query.get_or_404(CheckoutID)
