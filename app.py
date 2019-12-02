@@ -257,7 +257,7 @@ def add_checkout():
         db.session.add(checkout)
         db.session.commit()
         flash('Material was successfully added!')
-        return redirect("/materials")
+        return redirect("/checkout")
     return render_template('add_checkout.html', form=form, pageTitle='Add A New Material', legend="Add A New Material")
 
 @app.route('/circulation/<int:CheckoutID>', methods=['GET','POST'])
@@ -274,7 +274,7 @@ def update_checkout(CheckoutID):
         circulation.PeopleID = form.PeopleID.data
         circulation.MaterialID = form.MaterialID.data
         circulation.Checkoutdate = datetime.datetime.now()
-        circulation.Datedue = datetime.datetime.timedelta(days=14)
+        circulation.Datedue = datetime.datetime.timedelta(days=14, hours=0, minutes=0)
         db.session.commit()
         flash('This Checkout has been updated!')
         return redirect(url_for('circulation', CheckoutID=circulation.CheckoutlID))
