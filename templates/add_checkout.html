@@ -8,19 +8,19 @@
   <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
   <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
 </div>
-<h3>Add Material</h3>
+<h3>Add Checkout</h3>
 <div>
 <form method="POST" action="">
     {{ form.csrf_token }}
-    {{ form.Title.label }} {{ form.Title }}<br>
+    {{ form.PeopleID.label }} {{ form.PeopleID }}<br>
     <br>
-    {{ form.Genre.label }} {{ form.Genre }}<br>
+    {{ form.MaterialID.label }} {{ form.MaterialID }}<br>
     <br>
-    {{ form.Author.label }} {{ form.Author }}<br>
+    {{ form.Checkoutdate.label }} {{ form.Checkoutdate }}<br>
     <br>
-    {{ form.ISBN.label }} {{ form.ISBN }}<br>
+    {{ form.Datedue.label }} {{ form.Datedue }}<br>
     <br>
-    <input type="submit" value="Add Material">
+    <input type="submit" value="Add Checkout">
 </form>
 <br>
 </div>

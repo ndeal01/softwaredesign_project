@@ -7,21 +7,23 @@
   <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
   <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
   <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+
 </div>
-<h3>Add Material</h3>
 <div>
-<form method="POST" action="">
+
+  <h3>Update Checkout</h3>
+
+  <form method="POST" action="">
+
     {{ form.csrf_token }}
-    {{ form.Title.label }} {{ form.Title }}<br>
+    {{ form.CheckoutID.label }}     {{ form.CheckoutID(size=5, readonly=true) }} <br>
+    {{ form.PeopleID.label }}          {{ form.PeopleID(size=20) }}<br>
+    {{ form.MaterialID.label }}      {{ form.MaterialID(size=20) }} <br>
+    {{ form.Checkoutdate.label }}   {{ form.Checkoutdate(size=20) }} <br>
+    {{ form.Datedue.label }}         {{ form.Datedue(size=20) }}<br>
     <br>
-    {{ form.Genre.label }} {{ form.Genre }}<br>
-    <br>
-    {{ form.Author.label }} {{ form.Author }}<br>
-    <br>
-    {{ form.ISBN.label }} {{ form.ISBN }}<br>
-    <br>
-    <input type="submit" value="Add Material">
-</form>
-<br>
+    <input type="submit" value="Save">
+
+  </form>
 </div>
 {% endblock %}

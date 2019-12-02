@@ -2,18 +2,30 @@
 
 
 {% block body %}
+<div class="navbar">
+  <a>South Liberty Public Library</a>
+  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <!--<a href="#"><i class="fa fa-fw fa-search"></i> Search</a>-->
+  <a class="active" href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+
+</div>
+<br>
 <form method="POST">
   <input type="text" autofocus="autofocus" name="search_string">
   <input type="submit" formaction="/search" value="Search">
   </form>
 
-<p><a href="{{ url_for('add_material')}}"> Add a new material</a>
+<p><a href="{{ url_for('add_material')}}"> Add Material</a>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-<div id='flash'>
+<div class="alert alert-warning alert-dismissible fade show" role="alert" id="flash">
   {% for message in messages %}
-  <strong>Alert!</strong> {{ message }}
-  <button type="close" value="x">
+  <strong>Alert!
+  </strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
   </button>
   {% endfor %}
   {% endif %}
@@ -24,10 +36,10 @@
     <table>
         <thead>
             <tr>
-
+                <th>Material ID</th>
                 <th>Title</th>
-                <th>DateAdded</th>
-                <th>LastModified</th>
+                <th>Date Added</th>
+                <th>Last Modified</th>
                 <th>Genre</th>
                 <th>Author</th>
                 <th>ISBN</th>
@@ -39,6 +51,7 @@
 
             {% for row in materials %}      <tr>
 
+                <td> {{ row.MaterialID }}</td>
                 <td> {{ row.Title }}</td>
                 <td> {{ row.DateAdded }}</td>
                 <td> {{ row.LastModified }}</td>
@@ -48,8 +61,8 @@
 
 
       <td>
-        <form action="/material/{{ row.MaterialID }}" method="POST">
-          <input type="submit" value="Details" class="btn btn-danger" />
+        <form action="{{ url_for('material', MaterialID=row.MaterialID) }}" method="POST">
+          <input type="submit" value="Details" class="btn btn-info" />
         </form>
       </td>
             </tr>
