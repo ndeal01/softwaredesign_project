@@ -1,41 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="utf-8">
-    <title>{{ pageTitle }}</title>
+<head>
+  <meta charset="utf-8">
+  <title>{{ pageTitle }}</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/stylesheet.css') }}">
-
-    <title>{{ pageTitle }}</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/stylesheet.css') }}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>{{ pageTitle }}</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
 <style>
 #flash { display:none; background-color:white; color:red}
 </style>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stylesheet.css') }}" />
-  <script>
-      $(function() {
-     $('#flash').delay(500).fadeIn('normal', function() {
-        $(this).delay(2500).fadeOut();
-     });
-  });
-  </script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stylesheet.css') }}" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<script>
+    $(function() {
+   $('#flash').delay(500).fadeIn('normal', function() {
+      $(this).delay(2500).fadeOut();
+   });
+});
+</script>
 
 </head>
 <body>
 
-<div>
-  <nav class="navbar">
-  <a>South Liberty Public Library</a>
-  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
-  <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
-  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
-  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
-  <a class="active" href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
-</nav>
-</div>
 </body>
       {% block body %}
 

@@ -114,7 +114,7 @@ def delete_material(MaterialID):
         db.session.delete(material)
         db.session.commit()
         flash('Material was successfully deleted!')
-        return redirect("/")
+        return redirect("/materials")
     else: #if it's a GET request, send them to the home page
         return redirect("/")
 

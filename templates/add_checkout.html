@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 {% block body %}
-
-<div>
+<div class="navbar">
+  <a>South Liberty Public Library</a>
+  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+  
   <h3>Add Checkout</h3>
 <form method="POST" action="">
     {{ form.csrf_token }}
