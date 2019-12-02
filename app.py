@@ -9,7 +9,7 @@ import datetime
 from datetime import date, timedelta
 import pymysql
 import secrets
-
+from time import strftime
 
 conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
 app = Flask(__name__)
@@ -134,17 +134,16 @@ class g2_peopletable(db.Model):
 
 class PeopleForm(FlaskForm):
     PeopleID = IntegerField('People ID: ')
-    FirstName = StringField('First Name:', validators=[DataRequired()])
-    LastName = StringField('Last Name:', validators=[DataRequired()])
-    Birthdate = DateField('Birthdate (YYYY-MM-DD): ')
+    FirstName = StringField('First Name: ', validators=[DataRequired()])
+    LastName = StringField('Last Name: ', validators=[DataRequired()])
+    Birthdate = StringField('Birthdate: ', validators=[DataRequired()])
     Address = StringField('Address: ', validators=[DataRequired()])
-    City = StringField('City:', validators=[DataRequired()])
-    State = StringField('State:', validators=[DataRequired()])
-    Zip = IntegerField('Zip:', validators=[DataRequired()])
-    PhoneNumber1 = IntegerField('Phone Number 1:', validators=[DataRequired()])
-    PhoneNumber2 = IntegerField('Phone Number 2:')
+    City = StringField('City: ', validators=[DataRequired()])
+    State = StringField('State: ', validators=[DataRequired()])
+    Zip = IntegerField('Zip: ', validators=[DataRequired()])
+    PhoneNumber1 = IntegerField('Phone Number 1: ', validators=[DataRequired()])
+    PhoneNumber2 = IntegerField('Phone Number 2: ')
     Email = StringField('Email: ', validators=[DataRequired()])
-
 
 @app.route('/people')
 def people():
@@ -177,43 +176,42 @@ def add_people():
 
 @app.route('/patron/<int:PeopleID>', methods=['GET','POST'])
 def patron(PeopleID):
-    people = g2_peopletable.query.get_or_404(PeopleID)
-    return render_template('patron.html', form=people, pageTitle='Patron Details')
+    patron = g2_peopletable.query.get_or_404(PeopleID)
+    return render_template('patron.html', form=patron, pageTitle='Patron Details')
 
 @app.route('/patron/<int:PeopleID>/update', methods=['GET','POST'])
 def update_patron(PeopleID):
-    people = g2_peopletable.query.get_or_404(PeopleID)
+    patron = g2_peopletable.query.get_or_404(PeopleID)
     form = PeopleForm()
 
     if form.validate_on_submit():
-        people.PeopleID = form.PeopleID.data
-        people.FirstName = form.FirstName.data
-        people.LastName = form.LastName.data
-        people.Birthdate = form.Birthdate.data
-        people.Address = form.Address.data
-        people.City = form.City.data
-        people.State = form.State.data
-        people.Zip = form.Zip.data
-        people.PhoneNumber1 = form.PhoneNumber1.data
-        people.PhoneNumber2 = form.PhoneNumber2.data
-        people.Email = form.Email.data
+        patron.FirstName = form.Firstname.data
+        patron.LastName = form.LastName.data
+        patron.Birthdate = form.Birthdate.data
+        patron.Address = form.Address.data
+        patron.City = form.City.data
+        patron.State = form.State.data
+        patron.Zip = form.Zip.data
+        patron.PhoneNumber1 = form.PhoneNumber1.data
+        patron.PhoneNumber2 = form.PhoneNumber2.data
+        patron.Email = form.Email.data
         db.session.commit()
 
         flash('This patron has been updated!')
-        return redirect(url_for('patron', PeopleID=people.PeopleID))
+        return redirect(url_for('patron', PeopleID=patron.PeopleID))
 
-    form.PeopleID.data = people.PeopleID
-    form.FirstName.data = people.FirstName
-    form.LastName.data = people.LastName
-    form.Birthdate.data = people.Birthdate
-    form.Address.data = people.Address
-    form.City.data = people.City
-    form.State.data = people.State
-    form.Zip.data = people.Zip
-    form.PhoneNumber1.data = people.PhoneNumber1
-    form.PhoneNumber2.data = people.PhoneNumber2
-    form.Email.data = people.Email
-    return render_template('update_patron.html', form=form, pageTitle='Update People',legend="Update People")
+    form.PeopleID.data = patron.PeopleID
+    form.FirstName.data = patron.FirstName
+    form.LastName.data = patron.LastName
+    form.Birthdate.data = patron.Birthdate
+    form.Address.data = patron.Address
+    form.City.data = patron.City
+    form.State.data = patron.State
+    form.Zip.data = patron.Zip
+    form.PhoneNumber1.data = patron.PhoneNumber1
+    form.PhoneNumber2.data = patron.PhoneNumber2
+    form.Email.data = patron.Email
+    return render_template('update_patron.html', form=form, pageTitle='Update Patron',legend="Update People")
 
 @app.route('/patron/<int:PeopleID>/delete', methods=['POST'])
 def delete_patron(PeopleID):
@@ -222,15 +220,15 @@ def delete_patron(PeopleID):
         db.session.delete(people)
         db.session.commit()
         flash('Patron was successfully deleted!')
-        return redirect("/people")
+        return redirect("/")
     else: #if it's a GET request, send them to the home page
         return redirect("/")
 
-class circulationtable(db.Model):
+class g2_circulationtable(db.Model):
     #__tablename__ = 'results'
     CheckoutID = db.Column(db.Integer, primary_key=True)
-    PeopleID = db.Column(db.Integer, db.ForeignKey('PeopleID'), nullable=False)
-    MaterialID = db.Column(db.Integer, db.ForeignKey('MaterialID'), nullable=False)
+    PeopleID = db.Column(db.Integer, db.ForeignKey('g2_peopletable.PeopleID'), nullable=False)
+    MaterialID = db.Column(db.Integer, db.ForeignKey('g2_materialtable.MaterialID'), nullable=False)
     Checkoutdate = db.Column(db.DateTime)
     Datedue = db.Column(db.DateTime)
 
@@ -246,35 +244,35 @@ class CheckoutForm(FlaskForm):
 
 @app.route('/checkout')
 def checkout():
-    all_checkout = circulationtable.query.all()
+    all_checkout = g2_circulationtable.query.all()
     return render_template('checkout.html', checkout=all_checkout, pageTitle='Circulation List')
 
 @app.route('/add_checkout', methods=['GET', 'POST'])
 def add_checkout():
     form = CheckoutForm()
     if form.validate_on_submit():
-        checkout = circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=datetime.datetime.now(), Datedue=datetime.datetime.timedelta(days=14))
+        checkout = g2_circulationtable(PeopleID=form.PeopleID.data, MaterialID=form.MaterialID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
         db.session.add(checkout)
         db.session.commit()
-        flash('Material was successfully added!')
-        return redirect("/checkout")
+        flash('Material was successfully checked out!')
+        return redirect('/checkout')
     return render_template('add_checkout.html', form=form, pageTitle='Add A New Material', legend="Add A New Material")
 
 @app.route('/circulation/<int:CheckoutID>', methods=['GET','POST'])
 def circulation(CheckoutID):
-    checkout = circulationtable.query.get_or_404(CheckoutID)
+    checkout = g2_circulationtable.query.get_or_404(CheckoutID)
     return render_template('circulation.html', form=checkout, pageTitle='Circulation Details')
 
 @app.route('/circulation/<int:CheckoutID>/update', methods=['GET','POST'])
 def update_checkout(CheckoutID):
-    circulation = g2_materialtable.query.get_or_404(CheckoutID)
+    circulation = g2_circulationtable.query.get_or_404(CheckoutID)
     form = CheckoutForm()
 
     if form.validate_on_submit():
         circulation.PeopleID = form.PeopleID.data
         circulation.MaterialID = form.MaterialID.data
         circulation.Checkoutdate = datetime.datetime.now()
-        circulation.Datedue = datetime.datetime.timedelta(days=14, hours=0, minutes=0)
+        circulation.Datedue = datetime.datetime.timedelta(days=14)
         db.session.commit()
         flash('This Checkout has been updated!')
         return redirect(url_for('circulation', CheckoutID=circulation.CheckoutlID))
@@ -289,7 +287,7 @@ def update_checkout(CheckoutID):
 @app.route('/circulation/<int:CheckoutID>/delete', methods=['POST'])
 def delete_checkout(CheckoutID):
     if request.method == 'POST': #if it's a POST request, delete the material from the database
-        checkout = circulationtable.query.get_or_404(MaterialID)
+        checkout = g2_circulationtable.query.get_or_404(CheckoutID)
         db.session.delete(checkout)
         db.session.commit()
         flash('Checkout was successfully deleted!')
