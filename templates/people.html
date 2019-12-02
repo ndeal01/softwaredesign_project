@@ -2,19 +2,11 @@
 
 
 {% block body %}
-<div class="navbar">
-  <a>South Liberty Public Library</a>
-  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
-  <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
-  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
-  <a class="active" href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
-  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
 
-</div>
 <br>
 <form method="POST">
   <input type="text" autofocus="autofocus" name="search_string">
-  <input type="submit" formaction="/search" value="Search">
+  <input type="submit" formaction="/searchpeople" value="Search">
   </form>
 
 <p><a href="{{ url_for('add_people')}}"> Add a new patron</a>
