@@ -257,7 +257,7 @@ def add_checkout():
         flash('Material was successfully added!')
         return redirect("/materials")
     return render_template('add_checkout.html', form=form, pageTitle='Add A New Material', legend="Add A New Material")
-    
+
 @app.route('/circulation/<int:CheckoutID>', methods=['GET','POST'])
 def g2_circulation(CheckoutID):
     checkout = g2_circulationtable.query.get_or_404(CheckoutID)
@@ -265,7 +265,7 @@ def g2_circulation(CheckoutID):
 
 @app.route('/circulation/<int:CheckoutID>/update', methods=['GET','POST'])
 def update_checkout(CheckoutID):
-    circulation = g2_materialtable.query.get_or_404(CheckoutID)
+    circulation = g2_circulationtable.query.get_or_404(CheckoutID)
     form = CheckoutForm()
 
     if form.validate_on_submit():
