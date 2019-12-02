@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="navbar">
+  <a>South Liberty Public Library</a>
+  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
+  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+</div>
+<div>
+  <h3>Add Patron</h3>
+<form method="POST" action="">
+
+    {{ form.csrf_token }}<br>
+    {{ form.FirstName.label }} {{ form.FirstName }}<br>
+    {{ form.LastName.label }} {{ form.LastName }}<br>
+    {{ form.Birthdate.label }} {{ form.Birthdate }}<br>
+    {{ form.Address.label }} {{ form.Address }}<br>
+    {{ form.City.label }} {{ form.City }}<br>
+    {{ form.State.label }} {{ form.State }}<br>
+    {{ form.Zip.label }} {{ form.Zip }}<br>
+    {{ form.PhoneNumber1.label }} {{ form.PhoneNumber1 }}<br>
+    {{ form.PhoneNumber2.label }} {{ form.PhoneNumber2 }}<br>
+    {{ form.Email.label }} {{ form.Email }}<br>
+
+    <input type="submit" value="Add Patron">
+
+  </form>
+<br>
+<p><a href="{{ url_for('.index')}}">View People</a></p>
+</div>
+{% endblock %}
