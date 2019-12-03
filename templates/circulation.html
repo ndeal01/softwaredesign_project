@@ -8,8 +8,6 @@
   <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
 </div>
 <div>
-  <h3>Material Details</h3>
-
 {% with messages = get_flashed_messages() %}
  {% if messages %}
  <div class="alert alert-warning alert-dismissible fade show" role="alert" id="flash">
@@ -28,16 +26,14 @@
 
 
     {{ form.csrf_token }}
+    {{ form.CheckoutID.label }} {{ form.CheckoutID }}
+    {{ form.PeopleID.label }} {{ form.PeopleID }}
     {{ form.MaterialID.label }} {{ form.MaterialID }}
-    {{ form.Title.label }} {{ form.Title }} <br>
-    {{ form.DateAdded.label }} {{ form.DateAdded }}<br>
-    {{ form.LastModified.label }} {{ form.LastModified }}<br>
-    {{ form.Genre.label }} {{ form.Genre }}<br>
-    {{ form.Author.label }} {{ form.Author }}<br>
-    {{ form.ISBN.label }} {{ form.ISBN }}<br>
+    {{ form.Checkoutdate.label }} {{ form.Checkoutdate }}
+    {{ form.Datedue.label }} {{ form.Datedue }}
 
-    <input type="submit" formaction="{{url_for('update_material', MaterialID=form.MaterialID)}}" value="Update">
-    <input type="submit" formaction="{{url_for('delete_material', MaterialID=form.MaterialID)}}" value="Delete">
+    <input type="submit" formaction="{{url_for('update_checkout', CheckoutID=form.CheckoutID)}}" value="Update">
+    <input type="submit" formaction="{{url_for('delete_checkout', CheckoutID=form.CheckoutID)}}" value="Delete">
 
 
 

@@ -1,0 +1,81 @@
+table, th, td {
+  border: 1px solid black;
+}
+table {
+  border-collapse: collapse;
+  width: 40%;
+}
+td{
+  text-align: center;
+}
+th {
+  height: 20px;
+  text-align: center;
+}
+/* Style the navigation bar */
+.navbar {
+ width: 100%;
+ background-color: #555;
+ overflow: auto;
+ float: right;
+ float: right;
+}
+
+/* Navbar links */
+.navbar a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+/* Navbar links on mouse-over */
+.navbar a:hover {
+ background-color: #000;
+}
+
+/* Current/active navbar link */
+.navbar a.active {
+ background-color: #4CAF50;
+}
+/* Style the input container */
+.navbar .search-container {
+  float: right;
+}
+
+/* Style the input field inside the navbar */
+.navbar input[type=text] {
+  padding: 6px;
+  margin-top: 12px;
+  font-size: 17px;
+  border: none;
+}
+
+/* Style the button inside the input container */
+.navbar .search-container button {
+  float: right;
+  padding: 6px;
+  margin-top: 12px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar .search-container button:hover {
+  background: #ccc;
+}
+/* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
+@media screen and (max-width: 500px) {
+ .navbar a {
+   float: none;
+   display: block;
+ }
+.hours {
+  width: 100%;
+  background-color: #555;
+  text-align: right;
+}
