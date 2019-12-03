@@ -7,12 +7,6 @@
   <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
   <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
   <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
-  <div class="search-container">
-    <form action="/search">
-      <input type="text" placeholder="Search.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
-    </form>
-  </div>
 </div>
 {% with messages = get_flashed_messages() %}
  {% if messages %}
