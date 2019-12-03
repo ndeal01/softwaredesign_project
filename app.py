@@ -227,8 +227,8 @@ def delete_patron(PeopleID):
 class g2_circulationtable(db.Model):
     #__tablename__ = 'results'
     CheckoutID = db.Column(db.Integer, primary_key=True)
-    PeopleID = db.Column(db.Integer, db.ForeignKey('PeopleID'), nullable=False)
-    MaterialID = db.Column(db.Integer, db.ForeignKey('MaterialID'), nullable=False)
+    PeopleID = db.Column(db.Integer, db.ForeignKey('g2_peopletable.PeopleID'), nullable=False)
+    MaterialID = db.Column(db.Integer, db.ForeignKey('g2_materialtable.MaterialID'), nullable=False)
     Checkoutdate = db.Column(db.DateTime)
     Datedue = db.Column(db.DateTime)
 
@@ -272,7 +272,7 @@ def add_checkout():
         db.session.add(checkout)
         db.session.commit()
         flash('Material was successfully added!')
-        return redirect("/materials")
+        return redirect("/checkout")
     return render_template('add_checkout.html', form=form, pageTitle='Add A New Material', legend="Add A New Material")
 
 @app.route('/circulation/<int:CheckoutID>', methods=['GET','POST'])
@@ -307,7 +307,7 @@ def delete_checkout(CheckoutID):
         checkout = g2_circulationtable.query.get_or_404(CheckoutID)
         db.session.delete(checkout)
         db.session.commit()
-        flash('Checkout was successfully deleted!')
+        flash('Check-in was successfully completed!')
         return redirect("/checkout")
 
     else: #if it's a GET request, send them to the home page
