@@ -7,7 +7,6 @@
   <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
   <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
 </div>
-<div>
 {% with messages = get_flashed_messages() %}
  {% if messages %}
  <div class="alert alert-warning alert-dismissible fade show" role="alert" id="flash">
@@ -21,8 +20,7 @@
    {% endwith %}
  </div>
 <br>
-{% if form %}
-  <h3>Material Details</h3>
+  <h3>Patron Details</h3>
 
 {% if form %}
   <form method="POST" action="{{ url_for('add_people') }}">
@@ -46,5 +44,4 @@
 
   </form>
 {% endif %}
-</div>
 {% endblock %}
