@@ -292,7 +292,7 @@ def update_checkout(CheckoutID):
         circulation.Datedue = datetime.datetime.timedelta(days=14)
         db.session.commit()
         flash('This Checkout has been updated!')
-        return redirect(url_for('circulation', CheckoutID=circulation.CheckoutlID))
+        return redirect(url_for('circulation', CheckoutID=circulation.CheckoutID))
 
     form.CheckoutID.data = circulation.CheckoutID
     form.PeopleID.data = circulation.PeopleID
