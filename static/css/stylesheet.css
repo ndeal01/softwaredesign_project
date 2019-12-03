@@ -12,6 +12,9 @@ th {
   height: 20px;
   text-align: center;
 }
+h3 {
+  color: white;
+}
 /* Style the navigation bar */
 .navbar {
  width: 100%;
@@ -47,8 +50,8 @@ th {
 
 /* Style the input field inside the navbar */
 .navbar input[type=text] {
-  padding: 6px;
-  margin-top: 12px;
+  padding: 4px;
+  margin-top: 4px;
   font-size: 17px;
   border: none;
 }
@@ -56,8 +59,8 @@ th {
 /* Style the button inside the input container */
 .navbar .search-container button {
   float: right;
-  padding: 6px;
-  margin-top: 12px;
+  padding: 4px;
+  margin-top: 4px;
   margin-right: 16px;
   background: #ddd;
   font-size: 17px;
