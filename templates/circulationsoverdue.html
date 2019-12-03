@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+
+<div class="container-fluid">
+
+<form method ="POST">
+  <input type="text" autofocus="autofocus" name="search_circulation">
+  <input type="submit" formaction="/searchcirculations" value="Search Checked Materials" class="btn btn-info">
+</form>
+</div>
+
+{% if circulations %}
+    <table class="table table-striped table-hover table-sm text-center">
+        <thead>
+            <tr>
+                <th>Checkout ID</th>
+                <th>Material ID</th>
+                <th>People ID</th>
+                <th>Checkout Date</th>
+                <th>Date due</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in circulations %}
+            <tr>
+
+                <td> {{ row.CheckoutID }}</td>
+                <td> {{ row.MaterialID }}</td>
+                <td> {{ row.PeopleID }}</td>
+                <td> {{ row.Checkoutdate }}</td>
+                <td> {{ row.Datedue }}</td>
+                <td> <form action="{{ url_for('check_in', CheckoutID=row.CheckoutID) }}" method="POST">
+                  <input type="submit" value="Check In" class="btn btn-info" />
+                </form>
+              </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+{% endblock %}

@@ -301,6 +301,16 @@ def delete_checkout(CheckoutID):
     else: #if it's a GET request, send them to the home page
         return redirect("/")
 
+@app.route('/circulations/overdue')
+def circulationsoverdue():
+    overdue_circulations = g2_circulationtable.query.filter(g2_circulationtable.Datedue<date.today())
+    return render_template('circulationsoverdue.html', circulations=overdue_circulations, pageTitle='Overdue Materials', legend='Overdue Materials')
+
+@app.route('/circulations/duetoday')
+def circulationsduetoday():
+    duetoday_circulations = g2_circulationtable.query.filter(g2_circulationtable.Datedue==date.today())
+    return render_template('circulationsduetoday.html', circulations=duetoday_circulations, pageTitle='Materials Due Today', legend='Materials Due Today')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
