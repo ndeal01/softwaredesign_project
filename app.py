@@ -8,17 +8,17 @@ from sqlalchemy import or_
 import datetime
 from datetime import date, timedelta
 import pymysql
-#import secrets
+import secrets
 from time import strftime
-import os
+#import os
 
-dbuser = os.environ.get('DBUSER')
-dbpass = os.environ.get('DBPASS')
-dbhost = os.environ.get('DBHOST')
-dbname = os.environ.get('DBNAME')
+#dbuser = os.environ.get('DBUSER')
+#dbpass = os.environ.get('DBPASS')
+#dbhost = os.environ.get('DBHOST')
+#dbname = os.environ.get('DBNAME')
 
-#conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
-conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(dbuser, dbpass, dbhost, dbname)
+conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
+#conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(dbuser, dbpass, dbhost, dbname)
 
 
 app = Flask(__name__)
@@ -75,7 +75,7 @@ def search_materials():
 def add_material():
     form = MaterialForm()
     if form.validate_on_submit():
-        material = g2_materialtable(Title=form.Title.data, DateAdded=form.DateAdded.data,LastModified=datetime.datetime.now(), Genre=form.Genre.data, Author=form.Author.data, ISBN=form.ISBN.data)
+        material = g2_materialtable(Title=form.Title.data, Genre=form.Genre.data, Author=form.Author.data, ISBN=form.ISBN.data, DateAdded=form.DateAdded.data, LastModified=datetime.datetime.now())
         db.session.add(material)
         db.session.commit()
         flash('Material was successfully added!')
@@ -194,7 +194,7 @@ def update_patron(PeopleID):
     form = PeopleForm()
 
     if form.validate_on_submit():
-        patron.FirstName = form.Firstname.data
+        patron.FirstName = form.FirstName.data
         patron.LastName = form.LastName.data
         patron.Birthdate = form.Birthdate.data
         patron.Address = form.Address.data
