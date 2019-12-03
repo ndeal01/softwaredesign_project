@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
 <div class="navbar">
-  <a>South Liberty Public Library</a>
+  <h3>South Liberty Public Library</h3>
   <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
   <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
   <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
@@ -14,7 +14,7 @@
   </div>
 </div>
 <br>
-  <h3>Add Material</h3>
+  <h4>Add Material</h4>
 <br>
 <form method="POST" action="">
     {{ form.csrf_token }}
