@@ -36,7 +36,7 @@ class g2_materialtable(db.Model):
 class MaterialForm(FlaskForm):
     MaterialID = IntegerField('Material ID: ')
     Title = StringField('Title: ', validators=[DataRequired()])
-    DateAdded = DateField('Date Added: ')
+    DateAdded = DateField('Date Added (YYYY-MM-DD): ')
     LastModified = DateField('Date Last Modified: ')
     Genre = StringField('Genre: ', validators=[DataRequired()])
     Author = StringField('Author: ', validators=[DataRequired()])
