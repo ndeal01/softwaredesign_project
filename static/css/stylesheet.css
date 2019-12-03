@@ -1,4 +1,4 @@
-table, th, td {
+/* NOTE:  */table, th, td {
   border: 1px solid black;
 }
 table {
@@ -17,6 +17,9 @@ th {
  background-color: #555;
  overflow: auto;
  float: right;
+=======
+ float: right;
+>>>>>>> f0c66570f6dab0fa4e6c5d4d7ea0911a0e0ce0d7
 }
 
 /* Navbar links */
@@ -72,6 +75,7 @@ th {
    float: none;
    display: block;
  }
+=======
 .hours {
   width: 100%;
   background-color: #555;

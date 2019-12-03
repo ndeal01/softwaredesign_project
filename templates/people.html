@@ -36,6 +36,7 @@
         <thead>
             <tr>
 
+                <th>People ID</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Birthdate</th>
@@ -54,6 +55,7 @@
 
             {% for row in people %}      <tr>
 
+                <td> {{ row.PeopleID }}</td>
                 <td> {{ row.FirstName }}</td>
                 <td> {{ row.LastName }}</td>
                 <td> {{ row.Birthdate }}</td>
