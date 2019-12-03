@@ -34,7 +34,7 @@
 </div>
 
 {% if materials %}
-    <table>
+    <table class="table table-striped" id="Materialstable">
         <thead>
             <tr>
                 <th>Material ID</th>
@@ -70,4 +70,10 @@
         </tbody>
     </table>
 {% endif %}
+<p id="count"></p>
+
+<script>
+  var x = document.getElementById("Materialstable").rows.length;
+  document.getElementById("count").innerHTML = "Total Materials: " + (x-1);
+</script>
 {% endblock %}

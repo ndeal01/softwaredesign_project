@@ -33,7 +33,7 @@
   </div>
 
   {% if checkout %}
-      <table>
+      <table class="table table-striped" id="MaterialsRented">
           <thead>
               <tr>
 
@@ -66,4 +66,10 @@
         </tbody>
       </table>
   {% endif %}
+  <p id="count"></p>
+
+<script>
+  var x = document.getElementById("MaterialsRented").rows.length;
+  document.getElementById("count").innerHTML = "Materials Rented: " + (x-1);
+</script>
 {% endblock %}

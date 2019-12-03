@@ -34,7 +34,7 @@
 </div>
 
 {% if people %}
-    <table>
+    <table class="table table-striped" id="Peopletable">
         <thead>
             <tr>
 
@@ -82,7 +82,13 @@
     </table>
 <br>
 <br>
-{{ countpatrons }}
+
 
 {% endif %}
+<p id="count"></p>
+
+<script>
+  var x = document.getElementById("Peopletable").rows.length;
+  document.getElementById("count").innerHTML = "Total Patrons: " + (x-1);
+</script>
 {% endblock %}
