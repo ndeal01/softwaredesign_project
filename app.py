@@ -51,7 +51,7 @@ def materials():
     all_materials = g2_materialtable.query.all()
     return render_template('materials.html', materials=all_materials, pageTitle='Materials', legend='Materials')
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/searchmaterials', methods=['GET', 'POST'])
 def search_materials():
     if request.method == 'POST':
         form = request.form
@@ -156,7 +156,7 @@ def search_people():
         form = request.form
         search_value = form['search_string']
         search = "%{0}%".format(search_value)
-        results = g2_peopletable.query.filter( or_(g2_peopletable.FirstName.like(search), g2_peopletable.LastName.like(search), g2_peopletable.Birthdate.like(search), g2_peopletable.Address.like(search), g2_peopletable.City.like(search), g2_peopletable.State.like(search), g2_peopletable.Zip.like(search), g2_peopletable.PhoneNumber1.like(search), g2_peopletable.PhoneNumber2.like(search), g2_peopletable.Email.like(search))).all()
+        results = g2_peopletable.query.filter( or_(g2_peopletable.FirstName.like(search), g2_peopletable.LastName.like(search), g2_peopletable.Birthdate.like(search), g2_peopletable.Address.like(search), g2_peopletable.City.like(search), g2_peopletable.State.like(search), g2_peopletable.State.like(search), g2_peopletable.Zip.like(search), g2_peopletable.PhoneNumber1.like(search), g2_peopletable.PhoneNumber2.like(search), g2_peopletable.Email.like(search))).all()
         return render_template('people.html', people=results, pageTitle="People")
 
     else:
@@ -227,23 +227,11 @@ def delete_patron(PeopleID):
 class g2_circulationtable(db.Model):
     #__tablename__ = 'results'
     CheckoutID = db.Column(db.Integer, primary_key=True)
-<<<<<<< .merge_file_a25472
-<<<<<<< HEAD
-    MaterialID = db.Column(db.Integer)
-    PeopleID = db.Column(db.Integer)
-    Checkoutdate = db.Column(db.DateTime)
-    Datedue = db.Column(db.DateTime)
-=======
-    PeopleID = db.Column(db.Integer, db.ForeignKey('g2_peopletable.PeopleID'), nullable=False)
-    MaterialID = db.Column(db.Integer, db.ForeignKey('g2_materialtable.MaterialID'), nullable=False)
-=======
     PeopleID = db.Column(db.Integer, db.ForeignKey('PeopleID'), nullable=False)
     MaterialID = db.Column(db.Integer, db.ForeignKey('MaterialID'), nullable=False)
->>>>>>> .merge_file_a04748
     Checkoutdate = db.Column(db.DateTime)
     Datedue = db.Column(db.DateTime)
 
->>>>>>> 997309b3149da683b7e50b18ad38a20868a35c0a
 def __repr__(self):
     return "id: {0} | People ID: {1} | Material ID: {2} | Checkout Date: {3} | Date due: {4}".format(self.CheckoutID, self.PeopleID, self.MaterialID, self.Checkoutdate, self.Datedue)
 
@@ -259,12 +247,23 @@ def checkout():
     all_checkout = g2_circulationtable.query.all()
     return render_template('checkout.html', checkout=all_checkout, pageTitle='Circulation List')
 
-<<<<<<< HEAD
 @app.route('/checkout/<int:CheckoutID>', methods=['GET','POST'])
 def circulation(CheckoutID):
     checkout = circulationtable.query.get_or_404(CheckoutID)
     return render_template('checkout.html', form=checkout, pageTitle='Circulation Details')
-=======
+
+@app.route('/searchcheckout', methods=['GET', 'POST'])
+def search_checkout():
+    if request.method == 'POST':
+        form = request.form
+        search_value = form['search_string']
+        search = "%{0}%".format(search_value)
+        results = g2_circulationtable.query.filter( or_(g2_circulationtable.PeopleID.like(search), g2_circulationtable.MaterialID.like(search), g2_circulationtable.Checkoutdate.like(search), g2_circulationtable.Datedue.like(search))).all()
+        return render_template('checkout.html', checkout=results, pageTitle="People")
+
+    else:
+        return redirect('/')
+        
 @app.route('/add_checkout', methods=['GET', 'POST'])
 def add_checkout():
     form = CheckoutForm()
