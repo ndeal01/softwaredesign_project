@@ -249,7 +249,7 @@ def checkout():
 
 @app.route('/checkout/<int:CheckoutID>', methods=['GET','POST'])
 def circulation(CheckoutID):
-    checkout = circulationtable.query.get_or_404(CheckoutID)
+    checkout = g2_circulationtable.query.get_or_404(CheckoutID)
     return render_template('checkout.html', form=checkout, pageTitle='Circulation Details')
 
 @app.route('/searchcheckout', methods=['GET', 'POST'])
@@ -263,12 +263,12 @@ def search_checkout():
 
     else:
         return redirect('/')
-        
+
 @app.route('/add_checkout', methods=['GET', 'POST'])
 def add_checkout():
     form = CheckoutForm()
     if form.validate_on_submit():
-        checkout = circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
+        checkout = g2_circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
         db.session.add(checkout)
         db.session.commit()
         flash('Material was successfully added!')
@@ -303,7 +303,7 @@ def update_checkout(CheckoutID):
 
 @app.route('/circulation/<int:CheckoutID>/delete', methods=['POST'])
 def delete_checkout(CheckoutID):
-    if request.method == 'POST': #if it's a POST request, delete the material from the database
+    if request.method == 'POST': #if it's a POST request, delete the circulation from the database
         checkout = g2_circulationtable.query.get_or_404(CheckoutID)
         db.session.delete(checkout)
         db.session.commit()
@@ -311,8 +311,6 @@ def delete_checkout(CheckoutID):
         return redirect("/checkout")
     else: #if it's a GET request, send them to the home page
         return redirect("/")
->>>>>>> 997309b3149da683b7e50b18ad38a20868a35c0a
-
 
 if __name__ == '__main__':
     app.run(debug=True)
