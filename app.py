@@ -8,10 +8,19 @@ from sqlalchemy import or_
 import datetime
 from datetime import date, timedelta
 import pymysql
-import secrets
+#import secrets
 from time import strftime
+import os
 
-conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
+dbuser = os.environ.get('DBUSER')
+dbpass = os.environ.get('DBPASS')
+dbhost = os.environ.get('DBHOST')
+dbname = os.environ.get('DBNAME')
+
+#conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
+conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(dbuser, dbpass, dbhost, dbname)
+
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY']='SuperSecretKey'
@@ -24,23 +33,23 @@ class g2_materialtable(db.Model):
     #__tablename__ = 'results'
     MaterialID = db.Column(db.Integer, primary_key=True)
     Title = db.Column(db.String(255))
-    DateAdded = db.Column(db.DateTime)
-    LastModified = db.Column(db.DateTime)
     Genre = db.Column(db.String(255))
     Author = db.Column(db.String(255))
     ISBN = db.Column(db.String(255))
+    DateAdded = db.Column(db.DateTime)
+    LastModified = db.Column(db.DateTime)
 
     def __repr__(self):
-        return "id: {0} | Title: {1} | Date Added: {2} | Last Modified: {3} | Genre: {4} | Author: {5} | ISBN: {6}".format(self.MaterialID, self.Title, self.DateAdded, self.LastModified, self.Genre, self.Author, self.ISBN)
+        return "id: {0} | Title: {1} | Genre: {2} | Author: {3} | ISBN: {4} | Date Added: {5} | Last Modified: {6}".format(self.MaterialID, self.Title, self.Genre, self.Author, self.ISBN, self.DateAdded, self.LastModified)
 
 class MaterialForm(FlaskForm):
     MaterialID = IntegerField('Material ID: ')
     Title = StringField('Title: ', validators=[DataRequired()])
-    DateAdded = DateField('Date Added (YYYY-MM-DD): ')
-    LastModified = DateField('Date Last Modified: ')
     Genre = StringField('Genre: ', validators=[DataRequired()])
     Author = StringField('Author: ', validators=[DataRequired()])
     ISBN = IntegerField('ISBN: ', validators=[DataRequired()])
+    DateAdded = DateField('Date Added (YYYY-MM-DD): ')
+    LastModified = DateField('Date Last Modified: ')
 
 @app.route('/')
 def index():
@@ -57,7 +66,7 @@ def search_materials():
         form = request.form
         search_value = form['search_string']
         search = "%{0}%".format(search_value)
-        results = g2_materialtable.query.filter( or_(g2_materialtable.Title.like(search), g2_materialtable.Genre.like(search), g2_materialtable.Author.like(search), g2_materialtable.ISBN.like(search))).all()
+        results = g2_materialtable.query.filter( or_(g2_materialtable.Title.like(search), g2_materialtable.Genre.like(search), g2_materialtable.Author.like(search), g2_materialtable.ISBN.like(search), g2_materialtable.DateAdded.like(search), g2_materialtable.LastModified.like(search))).all()
         return render_template('materials.html', materials=results, pageTitle="Materials", legend ="Update A Material")
     else:
         return redirect('/')
@@ -86,22 +95,22 @@ def update_material(MaterialID):
 
     if form.validate_on_submit():
         material.Title = form.Title.data
-        material.DateAdded = form.DateAdded.data
-        material.LastModified = datetime.datetime.now()
         material.Genre = form.Genre.data
         material.Author = form.Author.data
         material.ISBN = form.ISBN.data
+        material.DateAdded = form.DateAdded.data
+        material.LastModified = datetime.datetime.now()
         db.session.commit()
         flash('This material has been updated!')
         return redirect(url_for('material', MaterialID=material.MaterialID))
 
     form.MaterialID.data = material.MaterialID
     form.Title.data = material.Title
-    form.DateAdded.data = material.DateAdded
-    form.LastModified.data = material.LastModified
     form.Genre.data = material.Genre
     form.Author.data = material.Author
     form.ISBN.data = material.ISBN
+    form.DateAdded.data = material.DateAdded
+    form.LastModified.data = material.LastModified
     return render_template('update_material.html', form=form, pageTitle='Update Material',legend="Update A Material")
 
 @app.route('/material/<int:MaterialID>/delete', methods=['POST'])
@@ -136,7 +145,7 @@ class PeopleForm(FlaskForm):
     PeopleID = IntegerField('People ID: ')
     FirstName = StringField('First Name: ', validators=[DataRequired()])
     LastName = StringField('Last Name: ', validators=[DataRequired()])
-    Birthdate = StringField('Birthdate: ', validators=[DataRequired()])
+    Birthdate = StringField('Birthdate (YYYY-MM-DD): ', validators=[DataRequired()])
     Address = StringField('Address: ', validators=[DataRequired()])
     City = StringField('City: ', validators=[DataRequired()])
     State = StringField('State: ', validators=[DataRequired()])
