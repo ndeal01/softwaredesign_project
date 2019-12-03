@@ -46,12 +46,23 @@ class MaterialForm(FlaskForm):
 def index():
     return render_template('index.html', pageTitle='South Liberty Public Library')
 
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        form = request.form
+        search_value = form['search_string']
+        search = "%{0}%".format(search_value)
+        results = index.html
+        return render_template('index.html', index=results, pageTitle="South Liberty Public Library")
+    else:
+        return redirect('/')
+
 @app.route('/materials')
 def materials():
     all_materials = g2_materialtable.query.all()
     return render_template('materials.html', materials=all_materials, pageTitle='Materials', legend='Materials')
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/searchmaterials', methods=['GET', 'POST'])
 def search_materials():
     if request.method == 'POST':
         form = request.form
@@ -150,7 +161,7 @@ def people():
     all_people = g2_peopletable.query.all()
     return render_template('people.html', people=all_people, pageTitle='Patrons', legend='Patrons')
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/searchpeople', methods=['GET', 'POST'])
 def search_people():
     if request.method == 'POST':
         form = request.form
@@ -246,6 +257,18 @@ class CheckoutForm(FlaskForm):
 def checkout():
     all_checkout = g2_circulationtable.query.all()
     return render_template('checkout.html', checkout=all_checkout, pageTitle='Circulation List')
+
+@app.route('/searchcheckout', methods=['GET', 'POST'])
+def search_checkout():
+    if request.method == 'POST':
+        form = request.form
+        search_value = form['search_string']
+        search = "%{0}%".format(search_value)
+        results = g2_circulationtable.query.filter( or_(g2_circulationtable.PeopleID.like(search), g2_circulationtable.MaterialID.like(search), g2_circulationtable.Checkoutdate.like(search), g2_circulationtable.Datedue.like(search))).all()
+        return render_template('checkout.html', checkout=results, pageTitle="People")
+
+    else:
+        return redirect('/')
 
 @app.route('/add_checkout', methods=['GET', 'POST'])
 def add_checkout():
