@@ -6,11 +6,15 @@
   <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
   <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
   <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
-
 </div>
 <br>
-  <h3>Add Patron</h3>
-<br>
+<div>
+
+  <h3>Add a Patron</h3>
+
+
+
+
 <form method="POST" action="">
 
     {{ form.csrf_token }}
@@ -37,7 +41,6 @@
     <input type="submit" value="Add Patron">
 
   </form>
-<br>
-<p><a href="{{ url_for('.index')}}">View People</a></p>
+
 </div>
 {% endblock %}
