@@ -156,7 +156,7 @@ def search_people():
         form = request.form
         search_value = form['search_string']
         search = "%{0}%".format(search_value)
-        results = g2_peopletable.query.filter( or_(g2_peopletable.FirstName.like(search), g2_peopletable.LastName.like(search), g2_peopletable.Birthdate.like(search), g2_peopletable.Address.like(search), g2_peopletable.City.like(search), g2_peopletable.State.like(search), g2_peopletable.State.like(search), g2_peopletable.Zip.like(search), g2_peopletable.PhoneNumber1.like(search), g2_peopletable.PhoneNumber2.like(search), g2_peopletable.Email.like(search))).all()
+        results = g2_peopletable.query.filter( or_(g2_peopletable.FirstName.like(search), g2_peopletable.LastName.like(search), g2_peopletable.Birthdate.like(search), g2_peopletable.Address.like(search), g2_peopletable.City.like(search), g2_peopletable.State.like(search), g2_peopletable.Zip.like(search), g2_peopletable.PhoneNumber1.like(search), g2_peopletable.PhoneNumber2.like(search), g2_peopletable.Email.like(search))).all()
         return render_template('people.html', people=results, pageTitle="People")
 
     else:
@@ -303,7 +303,11 @@ def update_checkout(CheckoutID):
 
 @app.route('/circulation/<int:CheckoutID>/delete', methods=['POST'])
 def delete_checkout(CheckoutID):
+<<<<<<< HEAD
     if request.method == 'POST': #if it's a POST request, delete the circulation from the database
+=======
+    if request.method == 'POST': #if it's a POST request, delete the material from the database
+>>>>>>> f3a3ffdbce6d9241cf582e998d62594aa8c055e4
         checkout = g2_circulationtable.query.get_or_404(CheckoutID)
         db.session.delete(checkout)
         db.session.commit()
@@ -311,6 +315,7 @@ def delete_checkout(CheckoutID):
         return redirect("/checkout")
     else: #if it's a GET request, send them to the home page
         return redirect("/")
+
 
 if __name__ == '__main__':
     app.run(debug=True)

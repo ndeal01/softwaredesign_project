@@ -1,14 +1,9 @@
 {% extends 'base.html' %}
 {% block body %}
-<div class="navbar">
-  <a>South Liberty Public Library</a>
-  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
-  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
-  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
-  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
-</div>
+
 <div>
-  <h3>Material Details</h3>
+<p><a href="{{ url_for('index')}}"> Home </a></p>
+<h3>{{ legend }}</h3>
 
 {% with messages = get_flashed_messages() %}
  {% if messages %}
@@ -22,19 +17,20 @@
    {% endif %}
    {% endwith %}
  </div>
-<br>
+
+
 {% if form %}
   <form method="POST", action="">
 
 
     {{ form.csrf_token }}
     {{ form.MaterialID.label }} {{ form.MaterialID }}
-    {{ form.Title.label }} {{ form.Title }} <br>
-    {{ form.DateAdded.label }} {{ form.DateAdded }}<br>
-    {{ form.LastModified.label }} {{ form.LastModified }}<br>
-    {{ form.Genre.label }} {{ form.Genre }}<br>
-    {{ form.Author.label }} {{ form.Author }}<br>
-    {{ form.ISBN.label }} {{ form.ISBN }}<br>
+    {{ form.Title.label }} {{ form.Title }}
+    {{ form.DateAdded.label }} {{ form.DateAdded }}
+    {{ form.LastModified.label }} {{ form.LastModified }}
+    {{ form.Genre.label }} {{ form.Genre }}
+    {{ form.Author.label }} {{ form.Author }}
+    {{ form.ISBN.label }} {{ form.ISBN }}
 
     <input type="submit" formaction="{{url_for('update_material', MaterialID=form.MaterialID)}}" value="Update">
     <input type="submit" formaction="{{url_for('delete_material', MaterialID=form.MaterialID)}}" value="Delete">
