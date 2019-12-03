@@ -1,26 +1,35 @@
 {% extends 'base.html' %}
 {% block body %}
+<div class="navbar">
+  <a>South Liberty Public Library</a>
+  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+  <div class="search-container">
+    <form action="/search">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
 <div>
-  <p><a href="{{ url_for('index')}}"> Home </a></p>
 
-  <h3>{{ legend }}</h3>
+  <h3>Update Material</h3>
 
   <form method="POST" action="">
 
     {{ form.csrf_token }}
     {{ form.MaterialID.label }}     {{ form.MaterialID(size=5, readonly=true) }} <br>
     {{ form.Title.label }}          {{ form.Title(size=20) }}<br>
-    {{ form.DateAdded.label }}      {{ form.DateAdded(size=20, readonly=true) }} <br>
-    {{ form.LastModified.label }}   {{ form.LastModified(size=20, readonly=true) }} <br>
+    {{ form.DateAdded.label }}      {{ form.DateAdded(size=20) }} <br>
+    {{ form.LastModified.label }}   {{ form.LastModified(size=20) }} <br>
     {{ form.Genre.label }}         {{ form.Genre(size=20) }}<br>
     {{ form.Author.label }}         {{ form.Author(size=20) }}<br>
     {{ form.ISBN.label }}           {{ form.ISBN(size=20) }} <br>
-
-
-
+    <br>
     <input type="submit" value="Save">
 
   </form>
-
 </div>
 {% endblock %}
