@@ -8,14 +8,16 @@
   <a class="active" href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
   <div class="search-container">
     <form action="/searchcheckout" method="POST">
-      <input type="text" placeholder="Search.." name="search_string">
+      <input type="text" placeholder="Search Checkout" name="search_string">
       <button type="submit"><i class="fa fa-search"></i></button>
     </form>
   </div>
 </div>
 <br>
 <br>
-<p><a href="{{ url_for('add_checkout')}}"> Add Checkout</a>
+<p><a href="{{ url_for('add_checkout')}}" class="btn"> Add Checkout</a>
+  <a href="/circulations/overdue" class="btn btn-danger"> Overdue Materials</a>
+<a href="/circulations/duetoday" class="btn btn-danger"> Due Today</a>
   {% with messages = get_flashed_messages() %}
   {% if messages %}
   <div class="alert alert-warning alert-dismissible fade show" role="alert" id="flash">
@@ -55,9 +57,6 @@
             <td> {{ row.Datedue }}</td>
 
             <td>
-              <form action="{{ url_for('circulation', CheckoutID=row.CheckoutID) }}" method="POST">
-                <input type="submit" value="Details" class="btn btn-info" />
-
               <form action="{{ url_for('delete_checkout', CheckoutID=row.CheckoutID) }}" method="POST">
                 <input type="submit" value="Check In" class="btn btn-info" />
               </form>

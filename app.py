@@ -24,23 +24,23 @@ class g2_materialtable(db.Model):
     #__tablename__ = 'results'
     MaterialID = db.Column(db.Integer, primary_key=True)
     Title = db.Column(db.String(255))
-    DateAdded = db.Column(db.DateTime)
-    LastModified = db.Column(db.DateTime)
     Genre = db.Column(db.String(255))
     Author = db.Column(db.String(255))
     ISBN = db.Column(db.String(255))
+    DateAdded = db.Column(db.DateTime)
+    LastModified = db.Column(db.DateTime)
 
     def __repr__(self):
-        return "id: {0} | Title: {1} | Date Added: {2} | Last Modified: {3} | Genre: {4} | Author: {5} | ISBN: {6}".format(self.MaterialID, self.Title, self.DateAdded, self.LastModified, self.Genre, self.Author, self.ISBN)
+        return "id: {0} | Title: {1} | Genre: {2} | Author: {3} | ISBN: {4} | Date Added: {5} | Last Modified: {6}".format(self.MaterialID, self.Title, self.Genre, self.Author, self.ISBN, self.DateAdded, self.LastModified)
 
 class MaterialForm(FlaskForm):
     MaterialID = IntegerField('Material ID: ')
     Title = StringField('Title: ', validators=[DataRequired()])
-    DateAdded = DateField('Date Added: ')
-    LastModified = DateField('Date Last Modified: ')
     Genre = StringField('Genre: ', validators=[DataRequired()])
     Author = StringField('Author: ', validators=[DataRequired()])
     ISBN = IntegerField('ISBN: ', validators=[DataRequired()])
+    DateAdded = DateField('Date Added (YYYY-MM-DD): ')
+    LastModified = DateField('Date Last Modified: ')
 
 @app.route('/')
 def index():
@@ -57,7 +57,7 @@ def search_materials():
         form = request.form
         search_value = form['search_string']
         search = "%{0}%".format(search_value)
-        results = g2_materialtable.query.filter( or_(g2_materialtable.Title.like(search), g2_materialtable.Genre.like(search), g2_materialtable.Author.like(search), g2_materialtable.ISBN.like(search))).all()
+        results = g2_materialtable.query.filter( or_(g2_materialtable.Title.like(search), g2_materialtable.Genre.like(search), g2_materialtable.Author.like(search), g2_materialtable.ISBN.like(search), g2_materialtable.DateAdded.like(search), g2_materialtable.LastModified.like(search))).all()
         return render_template('materials.html', materials=results, pageTitle="Materials", legend ="Update A Material")
     else:
         return redirect('/')
@@ -86,22 +86,22 @@ def update_material(MaterialID):
 
     if form.validate_on_submit():
         material.Title = form.Title.data
-        material.DateAdded = form.DateAdded.data
-        material.LastModified = datetime.datetime.now()
         material.Genre = form.Genre.data
         material.Author = form.Author.data
         material.ISBN = form.ISBN.data
+        material.DateAdded = form.DateAdded.data
+        material.LastModified = datetime.datetime.now()
         db.session.commit()
         flash('This material has been updated!')
         return redirect(url_for('material', MaterialID=material.MaterialID))
 
     form.MaterialID.data = material.MaterialID
     form.Title.data = material.Title
-    form.DateAdded.data = material.DateAdded
-    form.LastModified.data = material.LastModified
     form.Genre.data = material.Genre
     form.Author.data = material.Author
     form.ISBN.data = material.ISBN
+    form.DateAdded.data = material.DateAdded
+    form.LastModified.data = material.LastModified
     return render_template('update_material.html', form=form, pageTitle='Update Material',legend="Update A Material")
 
 @app.route('/material/<int:MaterialID>/delete', methods=['POST'])
@@ -136,7 +136,7 @@ class PeopleForm(FlaskForm):
     PeopleID = IntegerField('People ID: ')
     FirstName = StringField('First Name: ', validators=[DataRequired()])
     LastName = StringField('Last Name: ', validators=[DataRequired()])
-    Birthdate = StringField('Birthdate: ', validators=[DataRequired()])
+    Birthdate = StringField('Birthdate (YYYY-MM-DD): ', validators=[DataRequired()])
     Address = StringField('Address: ', validators=[DataRequired()])
     City = StringField('City: ', validators=[DataRequired()])
     State = StringField('State: ', validators=[DataRequired()])
@@ -144,6 +144,10 @@ class PeopleForm(FlaskForm):
     PhoneNumber1 = IntegerField('Phone Number 1: ', validators=[DataRequired()])
     PhoneNumber2 = IntegerField('Phone Number 2: ')
     Email = StringField('Email: ', validators=[DataRequired()])
+
+def countpatrons():
+     countpatrons = session.query(func.count(g2_peopletable.PeopleID)).scalar()
+     return f'There are {countpatrons} in the system'
 
 @app.route('/people')
 def people():
@@ -185,7 +189,7 @@ def update_patron(PeopleID):
     form = PeopleForm()
 
     if form.validate_on_submit():
-        patron.FirstName = form.Firstname.data
+        patron.FirstName = form.FirstName.data
         patron.LastName = form.LastName.data
         patron.Birthdate = form.Birthdate.data
         patron.Address = form.Address.data
@@ -227,8 +231,8 @@ def delete_patron(PeopleID):
 class g2_circulationtable(db.Model):
     #__tablename__ = 'results'
     CheckoutID = db.Column(db.Integer, primary_key=True)
-    PeopleID = db.Column(db.Integer, db.ForeignKey('PeopleID'), nullable=False)
-    MaterialID = db.Column(db.Integer, db.ForeignKey('MaterialID'), nullable=False)
+    PeopleID = db.Column(db.Integer, db.ForeignKey('g2_peopletable.PeopleID'), nullable=False)
+    MaterialID = db.Column(db.Integer, db.ForeignKey('g2_materialtable.MaterialID'), nullable=False)
     Checkoutdate = db.Column(db.DateTime)
     Datedue = db.Column(db.DateTime)
 
@@ -268,38 +272,27 @@ def search_checkout():
 def add_checkout():
     form = CheckoutForm()
     if form.validate_on_submit():
-        checkout = g2_circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
+        checkout = g2_circulationtable(PeopleID=form.PeopleID.data, MaterialID=form.MaterialID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
         db.session.add(checkout)
         db.session.commit()
         flash('Material was successfully added!')
-        return redirect("/materials")
+        return redirect("/checkout")
     return render_template('add_checkout.html', form=form, pageTitle='Add A New Material', legend="Add A New Material")
+
+@app.route('/circulations/overdue')
+def circulationsoverdue():
+    overdue_circulations = g2_circulationtable.query.filter(g2_circulationtable.Datedue<date.today())
+    return render_template('circulationsoverdue.html', circulations=overdue_circulations, pageTitle='Overdue Materials', legend='Overdue Materials')
+
+@app.route('/circulations/duetoday')
+def circulationsduetoday():
+    duetoday_circulations = g2_circulationtable.query.filter(g2_circulationtable.Datedue==date.today())
+    return render_template('circulationsduetoday.html', circulations=duetoday_circulations, pageTitle='Materials Due Today', legend='Materials Due Today')
 
 @app.route('/circulation/<int:CheckoutID>', methods=['GET','POST'])
 def g2_circulation(CheckoutID):
     checkout = g2_circulationtable.query.get_or_404(CheckoutID)
     return render_template('circulation.html', form=checkout, pageTitle='Circulation Details')
-
-@app.route('/circulation/<int:CheckoutID>/update', methods=['GET','POST'])
-def update_checkout(CheckoutID):
-    circulation = g2_circulationtable.query.get_or_404(CheckoutID)
-    form = CheckoutForm()
-
-    if form.validate_on_submit():
-        circulation.PeopleID = form.PeopleID.data
-        circulation.MaterialID = form.MaterialID.data
-        circulation.Checkoutdate = datetime.datetime.now()
-        circulation.Datedue = datetime.datetime.timedelta(days=14)
-        db.session.commit()
-        flash('This Checkout has been updated!')
-        return redirect(url_for('circulation', CheckoutID=circulation.CheckoutID))
-
-    form.CheckoutID.data = circulation.CheckoutID
-    form.PeopleID.data = circulation.PeopleID
-    form.MaterialID.data = circulation.MaterialID
-    form.Checkoutdate.data = circulation.Checkoutdate
-    form.Datedue.data = circulation.Datedue
-    return render_template('update_checkout.html', form=form, pageTitle='Update Checkout',legend="Update Checkout")
 
 @app.route('/circulation/<int:CheckoutID>/delete', methods=['POST'])
 def delete_checkout(CheckoutID):
@@ -307,7 +300,7 @@ def delete_checkout(CheckoutID):
         checkout = g2_circulationtable.query.get_or_404(CheckoutID)
         db.session.delete(checkout)
         db.session.commit()
-        flash('Checkout was successfully deleted!')
+        flash('Check-in was successfully completed!')
         return redirect("/checkout")
 
     else: #if it's a GET request, send them to the home page

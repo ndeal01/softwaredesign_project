@@ -8,6 +8,12 @@
   <a class="active" href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
   <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
   <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+  <div class="search-container">
+    <form action="/searchmaterials" method="POST">
+      <input type="text" placeholder="Search Materials" name="search_string">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
 </div>
 
 <br>
@@ -33,11 +39,11 @@
             <tr>
                 <th>Material ID</th>
                 <th>Title</th>
-                <th>Date Added</th>
-                <th>Last Modified</th>
                 <th>Genre</th>
                 <th>Author</th>
                 <th>ISBN</th>
+                <th>Date Added</th>
+                <th>Last Modified</th>
 
             </tr>
         </thead>
@@ -48,12 +54,11 @@
 
                 <td> {{ row.MaterialID }}</td>
                 <td> {{ row.Title }}</td>
-                <td> {{ row.DateAdded }}</td>
-                <td> {{ row.LastModified }}</td>
                 <td> {{ row.Genre }}</td>
                 <td> {{ row.Author }}</td>
                 <td> {{ row.ISBN }}</td>
-
+                <td> {{ row.DateAdded }}</td>
+                <td> {{ row.LastModified }}</td>
 
       <td>
         <form action="{{ url_for('material', MaterialID=row.MaterialID) }}" method="POST">
