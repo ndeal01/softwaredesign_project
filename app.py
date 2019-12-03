@@ -268,7 +268,7 @@ def search_checkout():
 def add_checkout():
     form = CheckoutForm()
     if form.validate_on_submit():
-        checkout = g2_circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
+        checkout = g2_circulationtable(PeopleID=form.PeopleID.data, MaterialID=form.MaterialID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
         db.session.add(checkout)
         db.session.commit()
         flash('Material was successfully added!')
@@ -279,27 +279,6 @@ def add_checkout():
 def g2_circulation(CheckoutID):
     checkout = g2_circulationtable.query.get_or_404(CheckoutID)
     return render_template('circulation.html', form=checkout, pageTitle='Circulation Details')
-
-@app.route('/circulation/<int:CheckoutID>/update', methods=['GET','POST'])
-def update_checkout(CheckoutID):
-    circulation = g2_circulationtable.query.get_or_404(CheckoutID)
-    form = CheckoutForm()
-
-    if form.validate_on_submit():
-        circulation.PeopleID = form.PeopleID.data
-        circulation.MaterialID = form.MaterialID.data
-        circulation.Checkoutdate = datetime.datetime.now()
-        circulation.Datedue = datetime.datetime.timedelta(days=14)
-        db.session.commit()
-        flash('This Checkout has been updated!')
-        return redirect(url_for('circulation', CheckoutID=circulation.CheckoutID))
-
-    form.CheckoutID.data = circulation.CheckoutID
-    form.PeopleID.data = circulation.PeopleID
-    form.MaterialID.data = circulation.MaterialID
-    form.Checkoutdate.data = circulation.Checkoutdate
-    form.Datedue.data = circulation.Datedue
-    return render_template('update_checkout.html', form=form, pageTitle='Update Checkout',legend="Update Checkout")
 
 @app.route('/circulation/<int:CheckoutID>/delete', methods=['POST'])
 def delete_checkout(CheckoutID):
