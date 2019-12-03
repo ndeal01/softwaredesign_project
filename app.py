@@ -51,7 +51,7 @@ def materials():
     all_materials = g2_materialtable.query.all()
     return render_template('materials.html', materials=all_materials, pageTitle='Materials', legend='Materials')
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/searchmaterials', methods=['GET', 'POST'])
 def search_materials():
     if request.method == 'POST':
         form = request.form
@@ -247,11 +247,28 @@ def checkout():
     all_checkout = g2_circulationtable.query.all()
     return render_template('checkout.html', checkout=all_checkout, pageTitle='Circulation List')
 
+@app.route('/checkout/<int:CheckoutID>', methods=['GET','POST'])
+def circulation(CheckoutID):
+    checkout = g2_circulationtable.query.get_or_404(CheckoutID)
+    return render_template('checkout.html', form=checkout, pageTitle='Circulation Details')
+
+@app.route('/searchcheckout', methods=['GET', 'POST'])
+def search_checkout():
+    if request.method == 'POST':
+        form = request.form
+        search_value = form['search_string']
+        search = "%{0}%".format(search_value)
+        results = g2_circulationtable.query.filter( or_(g2_circulationtable.PeopleID.like(search), g2_circulationtable.MaterialID.like(search), g2_circulationtable.Checkoutdate.like(search), g2_circulationtable.Datedue.like(search))).all()
+        return render_template('checkout.html', checkout=results, pageTitle="People")
+
+    else:
+        return redirect('/')
+
 @app.route('/add_checkout', methods=['GET', 'POST'])
 def add_checkout():
     form = CheckoutForm()
     if form.validate_on_submit():
-        checkout = circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
+        checkout = g2_circulationtable(PeopleID=form.PeopleID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
         db.session.add(checkout)
         db.session.commit()
         flash('Material was successfully added!')
@@ -275,7 +292,7 @@ def update_checkout(CheckoutID):
         circulation.Datedue = datetime.datetime.timedelta(days=14)
         db.session.commit()
         flash('This Checkout has been updated!')
-        return redirect(url_for('circulation', CheckoutID=circulation.CheckoutlID))
+        return redirect(url_for('circulation', CheckoutID=circulation.CheckoutID))
 
     form.CheckoutID.data = circulation.CheckoutID
     form.PeopleID.data = circulation.PeopleID
@@ -286,12 +303,13 @@ def update_checkout(CheckoutID):
 
 @app.route('/circulation/<int:CheckoutID>/delete', methods=['POST'])
 def delete_checkout(CheckoutID):
-    if request.method == 'POST': #if it's a POST request, delete the material from the database
+    if request.method == 'POST': #if it's a POST request, delete the circulation from the database
         checkout = g2_circulationtable.query.get_or_404(CheckoutID)
         db.session.delete(checkout)
         db.session.commit()
         flash('Checkout was successfully deleted!')
         return redirect("/checkout")
+
     else: #if it's a GET request, send them to the home page
         return redirect("/")
 

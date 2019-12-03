@@ -11,10 +11,6 @@
 </div>
 
 <br>
-<form method="POST">
-  <input type="text" autofocus="autofocus" name="search_string">
-  <input type="submit" formaction="/search" value="Search">
-  </form>
 
 <p><a href="{{ url_for('add_material')}}"> Add Material</a>
 {% with messages = get_flashed_messages() %}
