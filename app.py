@@ -303,16 +303,13 @@ def update_checkout(CheckoutID):
 
 @app.route('/circulation/<int:CheckoutID>/delete', methods=['POST'])
 def delete_checkout(CheckoutID):
-<<<<<<< HEAD
     if request.method == 'POST': #if it's a POST request, delete the circulation from the database
-=======
-    if request.method == 'POST': #if it's a POST request, delete the material from the database
->>>>>>> f3a3ffdbce6d9241cf582e998d62594aa8c055e4
         checkout = g2_circulationtable.query.get_or_404(CheckoutID)
         db.session.delete(checkout)
         db.session.commit()
         flash('Checkout was successfully deleted!')
         return redirect("/checkout")
+
     else: #if it's a GET request, send them to the home page
         return redirect("/")
 

@@ -55,13 +55,11 @@
             <td> {{ row.Datedue }}</td>
 
             <td>
-<<<<<<< HEAD
               <form action="{{ url_for('circulation', CheckoutID=row.CheckoutID) }}" method="POST">
                 <input type="submit" value="Details" class="btn btn-info" />
-=======
+
               <form action="{{ url_for('delete_checkout', CheckoutID=row.CheckoutID) }}" method="POST">
                 <input type="submit" value="Check In" class="btn btn-info" />
->>>>>>> f3a3ffdbce6d9241cf582e998d62594aa8c055e4
               </form>
             </td>
                   </tr>
