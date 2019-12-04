@@ -32,20 +32,34 @@
 {% if form %}
   <form method="POST", action="">
 
-<table class = "table table-striped" id="materials">
-        <thead>
-            <tr>
-    <th>{{ form.csrf_token }}</th>
-    <th>{{ form.MaterialID.label }} {{ form.MaterialID }}</th>
-    <th>{{ form.Title.label }} {{ form.Title }}</th>
-    <th>{{ form.Genre.label }} {{ form.Genre }}</th>
-    <th>{{ form.Author.label }} {{ form.Author }}</th>
-    <th>{{ form.ISBN.label }} {{ form.ISBN }}</th>
-    <th>{{ form.DateAdded.label }} {{ form.DateAdded }}</th>
-    <th>{{ form.LastModified.label }} {{ form.LastModified }}</th>
+<table class = "table table-striped" id="materialsdetails">
+  <thead>
+      <tr>
+          <th>Material ID</th>
+          <th>Title</th>
+          <th>Genre</th>
+          <th>Author</th>
+          <th>ISBN</th>
+          <th>Date Added</th>
+          <th>Last Modified</th>
+
+      </tr>
+  </thead>
+
+
+  <tbody>
+    <tr>
+      <td>{{ form.MaterialID.label }} {{ form.MaterialID }}</td>
+      <td>{{ form.Title.label }} {{ form.Title }}</td>
+      <td>{{ form.Genre.label }} {{ form.Genre }}</td>
+      <td>{{ form.Author.label }} {{ form.Author }}</td>
+      <td>{{ form.ISBN.label }} {{ form.ISBN }}</td>
+      <td>{{ form.DateAdded.label }} {{ form.DateAdded }}</td>
+      <td>{{ form.LastModified.label }} {{ form.LastModified }}</td>
+
   </tr>
-</thead>
 </tbody>
+
     <input type="submit" formaction="{{url_for('update_material', MaterialID=form.MaterialID)}}" value="Update">
     <input type="submit" formaction="{{url_for('delete_material', MaterialID=form.MaterialID)}}" value="Delete">
 

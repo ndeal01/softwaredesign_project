@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% block body %}
-
+<div class="navbar">
+  <h3>South Liberty Public Library</h3>
+  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+  <div class="search-container">
+    <form action="/searchcheckout" method="POST">
+      <input type="text" placeholder="Search Checkout" name="search_string">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
 
 
 <div class="container-fluid">

@@ -31,18 +31,39 @@
 {% if form %}
   <form method="POST" action="{{ url_for('add_people') }}">
 
-    {{ form.csrf_token }}
-    {{ form.PeopleID.label }} {{ form.PeopleID }}
-    {{ form.FirstName.label }} {{ form.FirstName }}<br>
-    {{ form.LastName.label }} {{ form.LastName }}<br>
-    {{ form.Birthdate.label }} {{ form.Birthdate }}<br>
-    {{ form.Address.label }} {{ form.Address }}<br>
-    {{ form.City.label }} {{ form.City }}<br>
-    {{ form.State.label }} {{ form.State }}<br>
-    {{ form.Zip.label }} {{ form.Zip }}<br>
-    {{ form.PhoneNumber1.label }} {{ form.PhoneNumber1 }}<br>
-    {{ form.PhoneNumber2.label }} {{ form.PhoneNumber2 }}<br>
-    {{ form.Email.label }} {{ form.Email }}<br>
+<table class = "table table-striped" id="patronsdetails">
+  <thead>
+    <tr>
+        <th>People ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Birthdate</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+        <th>Phone Number 1</th>
+        <th>Phone Number 2</th>
+        <th>Email</th>
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>{{ form.PeopleID.label }} {{ form.PeopleID }}</td>
+      <td>{{ form.FirstName.label }} {{ form.FirstName }}</td>
+      <td>{{ form.LastName.label }} {{ form.LastName }}</td>
+      <td>{{ form.Birthdate.label }} {{ form.Birthdate }}</td>
+      <td>{{ form.Address.label }} {{ form.Address }}</td>
+      <td>{{ form.City.label }} {{ form.City }}</td>
+      <td>{{ form.State.label }} {{ form.State }}</td>
+      <td>{{ form.Zip.label }} {{ form.Zip }}</td>
+      <td>{{ form.PhoneNumber1.label }} {{ form.PhoneNumber1 }}</td>
+      <td>{{ form.PhoneNumber2.label }} {{ form.PhoneNumber2 }}</td>
+      <td>{{ form.Email.label }} {{ form.Email }}</td>
+    </tr>
+  </tbody>
 
     <input type="submit" formaction="{{url_for('update_patron', PeopleID=form.PeopleID)}}" value="Update">
     <input type="submit" formaction="{{url_for('delete_patron', PeopleID=form.PeopleID)}}" value="Delete">
