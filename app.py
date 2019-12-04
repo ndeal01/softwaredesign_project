@@ -8,17 +8,17 @@ from sqlalchemy import or_
 import datetime
 from datetime import date, timedelta
 import pymysql
-#import secrets
+import secrets
 from time import strftime
 import os
 
-dbuser = os.environ.get('DBUSER')
-dbpass = os.environ.get('DBPASS')
-dbhost = os.environ.get('DBHOST')
-dbname = os.environ.get('DBNAME')
+#dbuser = os.environ.get('DBUSER')
+#dbpass = os.environ.get('DBPASS')
+#dbhost = os.environ.get('DBHOST')
+#dbname = os.environ.get('DBNAME')
 
-#conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
-conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(dbuser, dbpass, dbhost, dbname)
+conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
+#conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(dbuser, dbpass, dbhost, dbname)
 
 
 app = Flask(__name__)
@@ -229,7 +229,7 @@ def delete_patron(PeopleID):
         db.session.delete(people)
         db.session.commit()
         flash('Patron was successfully deleted!')
-        return redirect("/")
+        return redirect("/people")
     else: #if it's a GET request, send them to the home page
         return redirect("/")
 
@@ -280,7 +280,7 @@ def add_checkout():
         checkout = g2_circulationtable(PeopleID=form.PeopleID.data, MaterialID=form.MaterialID.data, Checkoutdate=date.today(), Datedue=(date.today() + timedelta(days=14) ))
         db.session.add(checkout)
         db.session.commit()
-        flash('Material was successfully added!')
+        flash('Checkout successfully completed!')
         return redirect("/checkout")
     return render_template('add_checkout.html', form=form, pageTitle='Add A New Material', legend="Add A New Material")
 
