@@ -32,16 +32,20 @@
 {% if form %}
   <form method="POST", action="">
 
-
-    {{ form.csrf_token }}
-    {{ form.MaterialID.label }} {{ form.MaterialID }}
-    {{ form.Title.label }} {{ form.Title }} <br>
-    {{ form.Genre.label }} {{ form.Genre }}<br>
-    {{ form.Author.label }} {{ form.Author }}<br>
-    {{ form.ISBN.label }} {{ form.ISBN }}<br>
-    {{ form.DateAdded.label }} {{ form.DateAdded }}<br>
-    {{ form.LastModified.label }} {{ form.LastModified }}<br>
-
+<table class = "table table-striped" id="materials">
+        <thead>
+            <tr>
+    <th>{{ form.csrf_token }}</th>
+    <th>{{ form.MaterialID.label }} {{ form.MaterialID }}</th>
+    <th>{{ form.Title.label }} {{ form.Title }}</th>
+    <th>{{ form.Genre.label }} {{ form.Genre }}</th>
+    <th>{{ form.Author.label }} {{ form.Author }}</th>
+    <th>{{ form.ISBN.label }} {{ form.ISBN }}</th>
+    <th>{{ form.DateAdded.label }} {{ form.DateAdded }}</th>
+    <th>{{ form.LastModified.label }} {{ form.LastModified }}</th>
+  </tr>
+</thead>
+</tbody>
     <input type="submit" formaction="{{url_for('update_material', MaterialID=form.MaterialID)}}" value="Update">
     <input type="submit" formaction="{{url_for('delete_material', MaterialID=form.MaterialID)}}" value="Delete">
 
