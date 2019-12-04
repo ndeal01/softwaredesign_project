@@ -80,4 +80,10 @@
         </tbody>
     </table>
 {% endif %}
+<p id="count"></p>
+
+<script>
+  var x = document.getElementById("patrons").rows.length;
+  document.getElementById("count").innerHTML = "Total Patrons: " + (x-1);
+</script>
 {% endblock %}

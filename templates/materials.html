@@ -70,4 +70,10 @@
         </tbody>
     </table>
 {% endif %}
+<p id="count"></p>
+
+<script>
+  var x = document.getElementById("materials").rows.length;
+  document.getElementById("count").innerHTML = "Total Materials: " + (x-1);
+</script>
 {% endblock %}

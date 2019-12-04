@@ -66,4 +66,10 @@
         </tbody>
       </table>
   {% endif %}
+  <p id="count"></p>
+
+<script>
+  var x = document.getElementById("checkout").rows.length;
+  document.getElementById("count").innerHTML = "Materials Rented: " + (x-1);
+</script>
 {% endblock %}
